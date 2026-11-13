@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en-GB" data-theme="modern">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Passenger Registration | e-PENUMPANG MarineCareerHub</title>
+  <!-- PWA & Mobile Phone App Capabilities -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d3b66">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="e-PENUMPANG">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/i18n.js"></script>
+  <script src="js/qr-generator.js"></script>
+  <script>
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      let theme = urlParams.get('theme') || localStorage.getItem('mch_theme') || 'modern';
+      if (theme === 'win95') theme = 'modern';
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <style>
+    body {
+      background-color: #f0f4f8;
+    }
+    .passenger-container {
+      max-width: 520px;
+      margin: 1.5rem auto;
+      padding: 0 1rem;
+    }
+    .pax-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--slate-200);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .trip-banner {
+      background: linear-gradient(135deg, #07192d 0%, #0077b6 100%);
+      color: white;
+      padding: 1.5rem;
+      text-align: center;
+      position: relative;
+    }
+    .trip-banner h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-top: 0.5rem;
+    }
+    .boarding-pass {
+      background: #f8fafc;
+      border: 2px dashed #0077b6;
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .ticket-stamp {
+      display: inline-block;
+      border: 2px solid #059669;
+      color: #059669;
+      padding: 0.35rem 0.75rem;
+      font-weight: 800;
+      font-size: 0.85rem;
+      border-radius: 6px;
+      transform: rotate(-3deg);
+      margin: 1rem 0;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+
+
+  <!-- Top Header with Language Switcher -->
+  <header class="header-topbar" style="border-bottom: 3px solid #f77f00; background: #ffffff; box-shadow: 0 1px 4px rgba(0,0,0,0.06);">
+    <div class="header-container" style="display: flex; align-items: center; justify-content: space-between; padding: 6px 16px; max-width: 520px; margin: 0 auto;">
+      <a href="/" class="brand-wrapper" style="display: flex; align-items: center; text-decoration: none; gap: 10px;">
+        <img src="assets/marinecareerhub-logo.png" alt="MarineCareerHub Logo" class="brand-logo" style="height: 38px; width: auto; object-fit: contain;">
+        <div style="height: 28px; width: 1px; background: #e2e8f0;"></div>
+        <div style="text-align: left;">
+          <div style="font-size: 10px; font-weight: 800; color: #0d3b66; letter-spacing: 0.05em;">MarineCareerHub</div>
+          <div style="font-size: 16px; font-weight: 900; color: #0d3b66; line-height: 1.1;">
+            <span style="color: #0077b6;">e-</span>PENUMPANG
+          </div>
+        </div>
+      </a>
+
+      <!-- Quick Language Toggle for Tourists -->
+      <div style="display: flex; align-items: center; gap: 4px; background: #f1f5f9; padding: 3px 6px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <button type="button" class="lang-switcher-btn" data-lang="en" style="border: none; background: transparent; font-size: 11px; font-weight: 800; padding: 3px 6px; border-radius: 5px; cursor: pointer;">ENG</button>
+        <span style="color: #cbd5e1; font-size: 10px;">|</span>
+        <button type="button" class="lang-switcher-btn" data-lang="ms" style="border: none; background: transparent; font-size: 11px; font-weight: 800; padding: 3px 6px; border-radius: 5px; cursor: pointer;">BM</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="passenger-container">
+    
+    <!-- Loading State -->
+    <div id="pax-loading" class="card" style="text-align: center; padding: 3rem 1rem;">
+      <div style="font-size: 2rem; margin-bottom: 1rem;">&#9875;</div>
+      <h3 data-i18n="pax_loading_title">Loading Trip Details...</h3>
+      <p style="color: var(--slate-600); font-size: 0.85rem;" data-i18n="pax_loading_desc">Please wait while the system checks vessel capacity.</p>
+    </div>
+
+    <!-- Error State (e.g. Invalid Trip ID) -->
+    <div id="pax-error-box" class="card" style="display: none; padding: 2rem; text-align: center;">
+      <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">&#9888;</div>
+      <h3 style="color: var(--danger-red);" id="pax-error-title" data-i18n="pax_err_title">Trip Not Found</h3>
+      <p style="color: var(--slate-600); font-size: 0.9rem; margin-top: 0.5rem;" id="pax-error-desc" data-i18n="pax_err_desc">
+        The scanned QR code may be invalid or expired. Please request the latest QR code from your boat captain.
+      </p>
+    </div>
+
+    <!-- Main Registration Screen -->
+    <div id="pax-main-content" style="display: none;" class="pax-card">
+      <div class="win95-bar" style="margin: 0; padding: 4px 8px;">
+        <span style="display: flex; align-items: center; gap: 6px;"><span data-i18n="inapp_win95_bar">🗔 e-PENUMPANG: Passenger Ticket &amp; Boarding Pass</span></span>
+        <span style="display: flex; gap: 4px;">
+          <span class="win95-title-btn">_</span>
+          <span class="win95-title-btn">□</span>
+          <span class="win95-title-btn">×</span>
+        </span>
+      </div>
+      
+      <!-- Trip Banner -->
+      <div class="trip-banner">
+        <span class="mission-tag" style="background: rgba(0, 212, 184, 0.25); border-color: #00d4b8;" data-i18n="pax_reg_header">
+          TOURIST BOAT PASSENGER REGISTRATION
+        </span>
+        <h2 id="pax-boat-name">-</h2>
+        <div style="font-size: 0.85rem; opacity: 0.9; margin-top: 0.25rem;">
+          <span data-i18n="pax_boat_name">Boat No:</span> <strong id="pax-boat-reg">-</strong> &bull; <span data-i18n="role_tekong">Captain:</span> <span id="pax-driver-name">-</span>
+        </div>
+        <div style="font-size: 0.9rem; font-weight: 700; margin-top: 0.5rem; color: #90e0ef;">
+          <span id="pax-origin">-</span> &rarr; <span id="pax-destination">-</span>
+        </div>
+      </div>
+
+      <div class="card-body">
+        
+        <!-- Live Capacity Status Alert -->
+        <div id="pax-capacity-alert" style="margin-bottom: 1.25rem;">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <!-- Seat Availability Meter -->
+        <div style="background: #f8fafc; border: 1px solid var(--slate-200); border-radius: var(--radius-sm); padding: 0.75rem; margin-bottom: 1.25rem;">
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; color: var(--slate-600); margin-bottom: 0.4rem;">
+            <span data-i18n="stat_capacity_rate">SEAT AVAILABILITY STATUS</span>
+            <span id="pax-seats-text">0/0</span>
+          </div>
+          <div class="seats-grid" id="pax-seats-visual" style="margin-top: 0;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Registration Form -->
+        <form id="form-passenger-reg" onsubmit="handlePassengerSubmit(event)">
+          
+          <div class="form-group">
+            <label class="form-label" data-i18n="label_pax_name">1. Full Name (as per National ID / Passport) *</label>
+            <input type="text" id="reg-name" class="form-control" data-i18n-placeholder="inapp_f1_placeholder" placeholder="e.g. Alexander John Smith" required autocomplete="name">
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+              <label class="form-label" style="margin-bottom: 0;" data-i18n="label_pax_ic">2. National ID / Passport No *</label>
+              <span id="reg-id-type-badge" style="font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; background: #f1f5f9; color: #475569; text-transform: uppercase;">MyKad / Passport</span>
+            </div>
+            <input type="text" id="reg-ic" class="form-control" data-i18n-placeholder="inapp_f2_placeholder" placeholder="e.g. 960824-10-5324 or Passport A1234567" required autocomplete="off" style="text-transform: uppercase; font-family: monospace; letter-spacing: 0.5px;">
+            <div class="form-help" data-i18n="pax_form_desc">Mandatory for passenger insurance &amp; maritime safety manifest APPENDIX A.</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="label_pax_age">3. Age (Years)</label>
+            <input type="number" id="reg-age" class="form-control" data-i18n-placeholder="inapp_f3_placeholder" placeholder="e.g. 28" min="1" max="120">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="label_pax_address">4. State / Country *</label>
+            <input type="text" id="reg-address" class="form-control" data-i18n-placeholder="inapp_f4_placeholder" placeholder="e.g. London, UK or Petaling Jaya, Selangor" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="label_pax_phone">5. Mobile Phone Number *</label>
+            <div style="display: flex; gap: 6px;">
+              <select id="reg-country-code" style="width: 110px; flex-shrink: 0; padding: 0.6rem 0.5rem; border: 1px solid var(--slate-300); border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; background: white; color: #0d3b66;">
+                <option value="+60">🇲🇾 +60</option>
+                <option value="+65">🇸🇬 +65</option>
+                <option value="+86">🇨🇳 +86</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+61">🇦🇺 +61</option>
+                <option value="+62">🇮🇩 +62</option>
+                <option value="+66">🇹🇭 +66</option>
+                <option value="+81">🇯🇵 +81</option>
+                <option value="+82">🇰🇷 +82</option>
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+49">🇩🇪 +49</option>
+                <option value="+33">🇫🇷 +33</option>
+                <option value="other">🌐 +Other</option>
+              </select>
+              <input type="tel" id="reg-phone" class="form-control" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/\D/g, '')" data-i18n-placeholder="inapp_f5_placeholder" placeholder="e.g. 123456789" required autocomplete="tel" style="flex: 1; font-family: monospace;">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" data-i18n="label_pax_emergency">6. Emergency Contact / Next of Kin (Optional)</label>
+            <input type="tel" id="reg-emergency" class="form-control" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/\D/g, '')" placeholder="e.g. 0198765432 (Family/Friend)">
+          </div>
+
+          <div style="background: #f1f5f9; padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.75rem; color: var(--slate-600); margin-bottom: 1.25rem;">
+            &#128737; <strong data-i18n="label_lifejacket_confirm">I confirm that I have inspected and agree to wear the safety lifejacket before boat departure.</strong>
+          </div>
+
+          <button type="submit" id="btn-submit-pax" class="btn btn-primary btn-lg" style="width: 100%;" data-i18n="btn_submit_pax">
+            &#10004; Submit Passenger Registration
+          </button>
+        </form>
+
+        <!-- Boarding Pass Confirmation (Hidden until submission) -->
+        <div id="pax-success-card" style="display: none;">
+          <div class="boarding-pass">
+            <div style="color: var(--teal-success); font-size: 2.5rem; margin-bottom: 0.25rem;">&#10004;</div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--primary);" data-i18n="ticket_title">DIGITAL BOARDING PASS</h3>
+            <p style="font-size: 0.85rem; color: var(--slate-600);" data-i18n="alert_reg_success">
+              Passenger registration successful! Please keep your digital boarding pass below.
+            </p>
+
+            <div class="ticket-stamp" data-i18n="ticket_badge_valid">
+              &#10004; STATUS: VALID FOR DEPARTURE
+            </div>
+
+            <div style="text-align: left; background: white; padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--slate-200); font-size: 0.85rem; margin: 1rem 0;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; border-bottom: 1px solid var(--slate-100); padding-bottom: 0.4rem;">
+                <span style="color: var(--slate-600);" data-i18n="ticket_pax_name">Passenger Name:</span>
+                <strong id="ticket-pax-name">-</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; border-bottom: 1px solid var(--slate-100); padding-bottom: 0.4rem;">
+                <span style="color: var(--slate-600);" data-i18n="ticket_ic">ID / Passport No:</span>
+                <strong id="ticket-pax-ic">-</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; border-bottom: 1px solid var(--slate-100); padding-bottom: 0.4rem;">
+                <span style="color: var(--slate-600);" data-i18n="ticket_boat">Boat &amp; Reg No:</span>
+                <strong id="ticket-boat-name">-</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; border-bottom: 1px solid var(--slate-100); padding-bottom: 0.4rem;">
+                <span style="color: var(--slate-600);" data-i18n="ticket_dest">Destination:</span>
+                <strong id="ticket-destination">-</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--slate-600);" data-i18n="ticket_seat">Passenger Order:</span>
+                <strong style="color: var(--marine-blue);" id="ticket-seat-no">-</strong>
+              </div>
+            </div>
+
+            <!-- Digital Boarding Pass Verification QR Code -->
+            <div style="text-align: center; margin: 0.85rem 0; padding: 0.85rem; background: white; border: 1px dashed #0077b6; border-radius: var(--radius-md); box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+              <canvas id="pax-ticket-qr-canvas" style="display: inline-block; max-width: 140px; height: auto; border-radius: 4px;"></canvas>
+              <div id="pax-ticket-qr-token" style="font-size: 11px; font-family: monospace; font-weight: 800; color: #0d3b66; margin-top: 6px; word-break: break-all;">-</div>
+              <div style="font-size: 10px; color: #0284c7; font-weight: 600; margin-top: 2px;" data-i18n="ticket_scan_pass_hint">
+                Present this digital boarding pass to the Captain / Jetty Officer
+              </div>
+            </div>
+
+            <div style="font-size: 0.75rem; color: var(--slate-600); text-align: left; padding: 0.5rem; background: #e0f2fe; border-radius: 6px;">
+              <strong data-i18n="ticket_instructions">Important Maritime Safety Notice:</strong>
+              <ul style="padding-left: 1.25rem; margin-top: 0.25rem;">
+                <li data-i18n="ticket_safety_1">Always wear your lifejacket for the entire duration of the boat trip.</li>
+              </ul>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 1rem;">
+              <button class="btn btn-secondary btn-sm" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 4px;" onclick="window.print()" data-i18n="print">
+                &#128424; Print Pass
+              </button>
+              <button id="btn-pax-save-qr" type="button" class="btn btn-secondary btn-sm" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 4px; background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-weight: 700;">
+                <span>💾</span> <span data-i18n="ticket_btn_save_pass">Save Boarding Pass (Offline)</span>
+              </button>
+            </div>
+            <button id="btn-pax-register-another" type="button" class="btn btn-secondary btn-sm" style="margin-top: 0.5rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.4rem; background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; font-weight: 700;">
+              <span>➕</span> <span data-i18n="btn_register_another">Register Another Passenger</span>
+            </button>
+            <button id="btn-pax-finish" type="button" class="btn btn-primary btn-sm" style="margin-top: 0.5rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.4rem;" data-i18n="btn_finish_login" title="Return to Homepage">
+              <span>&#127968;</span> <span>Done &amp; Return to Homepage</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Card Footer -->
+      <div style="background: #fafcff; border-top: 1px solid var(--slate-200); padding: 0.75rem 1.25rem; text-align: center; font-size: 0.75rem; color: var(--slate-500);" data-i18n="system_subtext">
+        MarineCareerHub Malaysia • Integrated Tourist Boat Passenger Registration System
+      </div>
+    </div>
+
+  </main>
+
+  <script src="passenger.js?v=20260923g"></script>
+</body>
+</html>

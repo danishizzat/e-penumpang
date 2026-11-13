@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <title>Ujian Visual Kru Pembantu</title>
+</head>
+<body style="margin: 0; padding: 0; background: #0f172a; font-family: system-ui, sans-serif;">
+  <script>
+    const trips = [
+      {
+        id: "TRIP-2026-101",
+        driverId: "nakhoda_rosli",
+        ownerFullName: "Nakhoda Rosli bin Ahmad",
+        ownerLicense: "TR-SKP-2024-001",
+        boatName: "Bayu Mutiara 09",
+        boatRegNo: "TR-9921-A",
+        skipperName: "Nakhoda Rosli bin Ahmad",
+        skipperLicense: "TR-SKP-2024-001",
+        maxCapacity: 12,
+        destination: "Pulau Perhentian",
+        departureJetty: "Jeti Kuala Besut, Terengganu",
+        departureDate: "2026-09-12",
+        departureTime: "09:30",
+        status: "OPEN",
+        drivers: [
+          { name: "Nakhoda Rosli bin Ahmad", ic_passport: "750815-11-5521", license_no: "TR-SKP-2024-001", role: "Tekong Utama" }
+        ],
+        crewList: "Faizal bin Azman (Awak-awak / Deckhand), Khairul Anwar (Kru Keselamatan), Zulkifli Hassan (Jurutera Bot / Mekanik)",
+        crew: [
+          { name: "Faizal bin Azman", ic_passport: "940312-11-5541", role: "Awak-awak / Deckhand" },
+          { name: "Khairul Anwar", ic_passport: "980620-11-4433", role: "Kru Keselamatan" },
+          { name: "Zulkifli Hassan", ic_passport: "911105-11-2299", role: "Jurutera Bot / Mekanik" }
+        ],
+        passengers: [
+          { id: "PAX-101", name: "Dato' Seri Ahmad Zahir", ic_passport: "680412-10-5531", age: 58, phone: "012-3456789", short_address: "Kuala Lumpur" },
+          { id: "PAX-102", name: "Datin Seri Rosnah binti Idris", ic_passport: "720915-10-5882", age: 54, phone: "012-3456780", short_address: "Kuala Lumpur" },
+          { id: "PAX-103", name: "Dr. Farhan bin Zahir", ic_passport: "950102-14-6611", age: 31, phone: "013-9876543", short_address: "Selangor" }
+        ]
+      }
+    ];
+
+    const session = {
+      username: "nakhoda_rosli",
+      fullName: "Nakhoda Rosli bin Ahmad",
+      role: "TEKONG",
+      boatName: "Bayu Mutiara 09",
+      boatRegNo: "TR-9921-A",
+      boatCapacity: 12,
+      defaultCapacity: 12,
+      regBoatCapacity: 12,
+      licenseNo: "TR-SKP-2024-001",
+      activeTripId: "TRIP-2026-101"
+    };
+
+    localStorage.setItem('smc_session', JSON.stringify(session));
+    localStorage.setItem('smc_trips', JSON.stringify(trips));
+    localStorage.setItem('mch_theme', 'modern');
+
+    const params = new URLSearchParams(window.location.search);
+    const action = params.get('action') || 'dashboard';
+    
+    if (action === 'modal') {
+      window.location.href = '/?showModal=createTrip';
+    } else if (action === 'manifest') {
+      window.location.href = '/manifest-print.html?tripId=TRIP-2026-101';
+    } else {
+      window.location.href = '/';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1343 @@
+/* css/style.css - e-PENUMPANG Custom Marine Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom Card & Marine Elevation */
+.marine-card {
+  background: #ffffff;
+  border-radius: 1.25rem;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.marine-card:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+}
+
+/* Status Badges */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.25rem 0.7rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.badge-open {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.badge-full {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  animation: pulse-danger 2s infinite;
+}
+
+.badge-approved {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+.badge-completed {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+}
+
+@keyframes pulse-danger {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* QR Code Display Frame */
+.qr-frame-box {
+  background: #f8fafc;
+  border: 2px dashed #00b4d8;
+  border-radius: 1rem;
+  padding: 0.75rem;
+  display: inline-block;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+/* Digital Boarding Pass Ticket */
+.ticket-container {
+  background: #ffffff;
+  border: 2px solid #0d3b66;
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  position: relative;
+}
+
+.ticket-notch-divider {
+  border-top: 2px dashed #94a3b8;
+  margin: 1.25rem -1.5rem;
+  position: relative;
+}
+
+.ticket-notch-divider::before,
+.ticket-notch-divider::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  width: 20px;
+  height: 20px;
+  background-color: #f1f5f9;
+  border-radius: 50%;
+  border: 2px solid #0d3b66;
+}
+
+.ticket-notch-divider::before {
+  left: -2px;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  transform: rotate(-45deg);
+}
+
+.ticket-notch-divider::after {
+  right: -2px;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  transform: rotate(45deg);
+}
+
+/* Print Stylesheet for A4 Official Manifest - Strictly hidden on screen */
+#manifest-print-section {
+  display: none !important;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  #manifest-print-section {
+    display: block !important;
+    width: 100% !important;
+    padding: 10mm 14mm 10mm 14mm !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+  }
+
+  .print-table th,
+  .print-table td {
+    border: 1px solid #475569;
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  .print-table th {
+    background-color: #f1f5f9 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* ==========================================================================
+   OLD SCHOOL / RETRO THEME SYSTEM
+   Themes: win95 (Default Old School), vintage, portal2000, modern
+   ========================================================================== */
+
+/* Retro Theme Switcher Toolbar (Permanently Hidden) */
+.retro-theme-toolbar,
+.theme-btn-group,
+.retro-theme-btn,
+[data-theme-target],
+[data-i18n="retro_theme"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+}
+
+.retro-theme-toolbar {
+  background: #c0c0c0;
+  border-bottom: 2px solid #808080;
+  box-shadow: 0 1px 0 #000000;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-family: 'Tahoma', 'Segoe UI', sans-serif;
+  font-size: 11px;
+  position: relative;
+  z-index: 50;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.theme-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.retro-theme-btn {
+  background: #c0c0c0;
+  color: #000000;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: inset 1px 1px #ffffff, inset -1px -1px #000000;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 0;
+  text-decoration: none;
+  user-select: none;
+}
+
+.retro-theme-btn:hover {
+  background: #d4d0c8;
+}
+
+.retro-theme-btn.active,
+.retro-theme-btn:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+  box-shadow: inset 1px 1px #000000, inset -1px -1px #ffffff;
+  background: #e8e8e8;
+  color: #000080;
+  font-weight: 800;
+}
+
+/* Simulated Win95 Window Titlebar (Reveals in Win95 theme) */
+.win95-bar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 6px;
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+  user-select: none;
+}
+
+.win95-title-btn {
+  display: inline-block;
+  background: #c0c0c0;
+  color: #000000;
+  border: 2px solid;
+  border-color: #ffffff #000000 #000000 #ffffff;
+  box-shadow: inset 1px 1px #fff, inset -1px -1px #808080;
+  font-size: 9px;
+  font-weight: 900;
+  width: 16px;
+  height: 14px;
+  line-height: 10px;
+  text-align: center;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   1. GAYA RETRO: WINDOWS 95 / WEB 1.0 (Default Old School)
+   -------------------------------------------------------------------------- */
+[data-theme="win95"] body {
+  background-color: #008080 !important; /* Classic Win95 Teal */
+  color: #000000 !important;
+  font-family: 'Tahoma', 'MS Sans Serif', -apple-system, sans-serif !important;
+}
+
+[data-theme="win95"] .win95-bar {
+  display: flex !important;
+}
+
+[data-theme="win95"] header {
+  background: #c0c0c0 !important;
+  border-bottom: 3px solid #808080 !important;
+  box-shadow: 0 2px 0 #000000 !important;
+  border-radius: 0 !important;
+  color: #000000 !important;
+}
+
+[data-theme="win95"] header h1,
+[data-theme="win95"] header span,
+[data-theme="win95"] header a {
+  color: #000000 !important;
+}
+
+[data-theme="win95"] .marine-card,
+[data-theme="win95"] .card,
+[data-theme="win95"] .pax-card,
+[data-theme="win95"] .ticket-container,
+[data-theme="win95"] #modal-create-trip > div,
+[data-theme="win95"] #modal-qr > div,
+[data-theme="win95"] #modal-edit-trip > div,
+[data-theme="win95"] #modal-manifest-preview > div {
+  background-color: #c0c0c0 !important;
+  border: 2px solid !important;
+  border-color: #ffffff #000000 #000000 #ffffff !important;
+  box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080, 2px 2px 0 rgba(0,0,0,0.5) !important;
+  border-radius: 0 !important;
+  color: #000000 !important;
+}
+
+[data-theme="win95"] h1,
+[data-theme="win95"] h2,
+[data-theme="win95"] h3,
+[data-theme="win95"] h4 {
+  color: #000080 !important;
+  font-family: 'Tahoma', sans-serif !important;
+}
+
+[data-theme="win95"] button:not(.retro-theme-btn),
+[data-theme="win95"] .btn,
+[data-theme="win95"] input[type="submit"] {
+  background: #c0c0c0 !important;
+  color: #000000 !important;
+  border: 2px solid !important;
+  border-color: #ffffff #000000 #000000 #ffffff !important;
+  box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080 !important;
+  border-radius: 0 !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+[data-theme="win95"] button:not(.retro-theme-btn):hover,
+[data-theme="win95"] .btn:hover {
+  background: #d4d0c8 !important;
+}
+
+[data-theme="win95"] button:not(.retro-theme-btn):active,
+[data-theme="win95"] .btn:active {
+  border-color: #000000 #ffffff #ffffff #000000 !important;
+  box-shadow: inset 1px 1px #808080 !important;
+}
+
+[data-theme="win95"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="win95"] select,
+[data-theme="win95"] textarea {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid !important;
+  border-color: #808080 #ffffff #ffffff #808080 !important;
+  box-shadow: inset 1px 1px #000000, inset -1px -1px #dfdfdf !important;
+  border-radius: 0 !important;
+  font-family: 'Tahoma', monospace !important;
+}
+
+[data-theme="win95"] table {
+  border-collapse: separate !important;
+  border: 2px solid !important;
+  border-color: #808080 #ffffff #ffffff #808080 !important;
+  background: #ffffff !important;
+}
+
+[data-theme="win95"] th {
+  background: #c0c0c0 !important;
+  color: #000000 !important;
+  border: 2px solid !important;
+  border-color: #ffffff #808080 #808080 #ffffff !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+}
+
+[data-theme="win95"] td {
+  border-bottom: 1px solid #d4d0c8 !important;
+  border-right: 1px solid #d4d0c8 !important;
+  font-family: 'Courier New', monospace !important;
+  font-size: 12px !important;
+  color: #000000 !important;
+}
+
+[data-theme="win95"] .badge-status {
+  border-radius: 0 !important;
+  border: 1px solid #000000 !important;
+  font-family: 'Courier New', monospace !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="win95"] footer {
+  background: #c0c0c0 !important;
+  border-top: 2px solid #ffffff !important;
+  box-shadow: 0 -1px 0 #808080 !important;
+  color: #000000 !important;
+  border-radius: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. GAYA RETRO: VINTAGE MARITIME LOGBOOK
+   -------------------------------------------------------------------------- */
+[data-theme="vintage"] body {
+  background-color: #f4ecd8 !important; /* Parchment Paper */
+  color: #2c1a0e !important;
+  font-family: 'Georgia', 'Times New Roman', serif !important;
+}
+
+[data-theme="vintage"] header {
+  background: #fdfaf3 !important;
+  border-bottom: 3px double #b8860b !important;
+  box-shadow: 0 4px 10px rgba(60, 40, 20, 0.1) !important;
+}
+
+[data-theme="vintage"] header h1,
+[data-theme="vintage"] header span {
+  color: #0b2545 !important;
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="vintage"] .marine-card,
+[data-theme="vintage"] .card,
+[data-theme="vintage"] .pax-card,
+[data-theme="vintage"] .ticket-container,
+[data-theme="vintage"] #modal-create-trip > div,
+[data-theme="vintage"] #modal-qr > div,
+[data-theme="vintage"] #modal-edit-trip > div,
+[data-theme="vintage"] #modal-manifest-preview > div {
+  background-color: #fdfaf3 !important;
+  border: 4px double #b8860b !important;
+  box-shadow: 0 4px 15px rgba(60, 40, 20, 0.15) !important;
+  border-radius: 4px !important;
+  color: #0b2545 !important;
+}
+
+[data-theme="vintage"] h1,
+[data-theme="vintage"] h2,
+[data-theme="vintage"] h3,
+[data-theme="vintage"] h4 {
+  font-family: 'Georgia', serif !important;
+  color: #0b2545 !important;
+  letter-spacing: 0.5px;
+}
+
+[data-theme="vintage"] button:not(.retro-theme-btn),
+[data-theme="vintage"] .btn,
+[data-theme="vintage"] input[type="submit"] {
+  background: #0b2545 !important;
+  color: #ffd700 !important;
+  border: 2px solid #b8860b !important;
+  border-radius: 3px !important;
+  font-family: 'Georgia', serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="vintage"] button:not(.retro-theme-btn):hover,
+[data-theme="vintage"] .btn:hover {
+  background: #143763 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="vintage"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="vintage"] select,
+[data-theme="vintage"] textarea {
+  background-color: #fefdf9 !important;
+  color: #0b2545 !important;
+  border: 1px solid #b8860b !important;
+  border-radius: 3px !important;
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="vintage"] table {
+  border: 2px solid #b8860b !important;
+  background: #fdfaf3 !important;
+}
+
+[data-theme="vintage"] th {
+  background: #0b2545 !important;
+  color: #ffd700 !important;
+  border: 1px solid #b8860b !important;
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="vintage"] td {
+  border-bottom: 1px solid #e2d3b3 !important;
+  color: #3b2816 !important;
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="vintage"] .badge-status {
+  border: 2px solid #8b0000 !important;
+  color: #8b0000 !important;
+  background: #faede6 !important;
+  border-radius: 3px !important;
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="vintage"] footer {
+  background: #fdfaf3 !important;
+  border-top: 3px double #b8860b !important;
+  color: #5c442d !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. GAYA RETRO: PORTAL RASMI KLASIK 2000-an
+   -------------------------------------------------------------------------- */
+[data-theme="portal2000"] body {
+  background-color: #edf2f7 !important;
+  color: #1e293b !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+[data-theme="portal2000"] header {
+  background: #0d3b66 !important;
+  color: #ffffff !important;
+  border-bottom: 4px solid #f77f00 !important;
+}
+
+[data-theme="portal2000"] header a,
+[data-theme="portal2000"] header span,
+[data-theme="portal2000"] header h1 {
+  color: #ffffff !important;
+}
+
+[data-theme="portal2000"] .marine-card,
+[data-theme="portal2000"] .card,
+[data-theme="portal2000"] .pax-card,
+[data-theme="portal2000"] .ticket-container,
+[data-theme="portal2000"] #modal-create-trip > div,
+[data-theme="portal2000"] #modal-qr > div,
+[data-theme="portal2000"] #modal-edit-trip > div,
+[data-theme="portal2000"] #modal-manifest-preview > div {
+  background-color: #ffffff !important;
+  border: 1px solid #0d3b66 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08) !important;
+  border-radius: 4px !important;
+}
+
+[data-theme="portal2000"] button:not(.retro-theme-btn),
+[data-theme="portal2000"] .btn,
+[data-theme="portal2000"] input[type="submit"] {
+  background: linear-gradient(180deg, #1e40af 0%, #0d3b66 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #072340 !important;
+  border-radius: 4px !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="portal2000"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="portal2000"] select,
+[data-theme="portal2000"] textarea {
+  border: 1px solid #0d3b66 !important;
+  border-radius: 3px !important;
+}
+
+[data-theme="portal2000"] th {
+  background: #0d3b66 !important;
+  color: #ffffff !important;
+  border: 1px solid #072340 !important;
+}
+
+[data-theme="portal2000"] tr:nth-child(even) td {
+  background-color: #f1f5f9 !important;
+}
+
+[data-theme="portal2000"] footer {
+  background: #ffffff !important;
+  border-top: 3px solid #0d3b66 !important;
+}
+
+/* Language Switcher Styling */
+.lang-switcher-btn {
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+.lang-switcher-btn.active-lang {
+  background: #0d3b66 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+[data-theme="win95"] .lang-switcher-btn.active-lang {
+  background: #000080 !important;
+  color: #ffffff !important;
+  border: 2px inset #ffffff !important;
+}
+[data-theme="vintage"] .lang-switcher-btn.active-lang {
+  background: #1b4965 !important;
+  color: #ffffff !important;
+}
+[data-theme="portal2000"] .lang-switcher-btn.active-lang {
+  background: #005a9c !important;
+  color: #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. GAYA MODEN: ENTERPRISE MARITIME (Default Professional Benchmark)
+   -------------------------------------------------------------------------- */
+[data-theme="modern"] body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+[data-theme="modern"] .win95-bar {
+  display: none !important;
+}
+
+[data-theme="modern"] header {
+  background: #ffffff !important;
+  border-bottom: 2px solid #0d3b66 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
+}
+
+[data-theme="modern"] #header-role-subbar {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+[data-theme="modern"] .marine-card {
+  background: #ffffff !important;
+  border-radius: 1rem !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 5px -1px rgba(0, 0, 0, 0.05), 0 1px 3px -1px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+[data-theme="modern"] .marine-card:hover {
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 8px 20px -4px rgba(13, 59, 102, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.03) !important;
+}
+
+[data-theme="modern"] .card,
+[data-theme="modern"] .pax-card,
+[data-theme="modern"] #modal-create-trip > div,
+[data-theme="modern"] #modal-qr > div,
+[data-theme="modern"] #modal-qr-code > div,
+[data-theme="modern"] #modal-edit-trip > div,
+[data-theme="modern"] #modal-manifest-preview > div {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04) !important;
+}
+
+[data-theme="modern"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="modern"] select,
+[data-theme="modern"] textarea {
+  background-color: #ffffff !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 0.625rem !important;
+  color: #0f172a !important;
+  font-weight: 500;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+[data-theme="modern"] input:focus,
+[data-theme="modern"] select:focus,
+[data-theme="modern"] textarea:focus {
+  border-color: #0077b6 !important;
+  box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.15) !important;
+  outline: none !important;
+}
+
+[data-theme="modern"] table {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden;
+}
+
+[data-theme="modern"] th {
+  background-color: #f8fafc !important;
+  color: #475569 !important;
+  font-weight: 700 !important;
+  font-size: 0.72rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+[data-theme="modern"] tr {
+  border-bottom: 1px solid #f1f5f9 !important;
+  transition: background-color 0.1s ease;
+}
+
+[data-theme="modern"] tr:hover {
+  background-color: #f8fafc !important;
+}
+
+[data-theme="modern"] td {
+  color: #1e293b !important;
+  font-weight: 500;
+}
+
+[data-theme="modern"] footer {
+  background: #ffffff !important;
+  border-top: 1px solid #e2e8f0 !important;
+  color: #64748b !important;
+}
+
+[data-theme="modern"] .lang-switcher-btn.active-lang {
+  background: #0d3b66 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  border-radius: 4px;
+}
+
+[data-theme="modern"] .retro-theme-btn {
+  background: transparent !important;
+  color: #64748b !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0.375rem !important;
+  padding: 0.25rem 0.6rem !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+[data-theme="modern"] .retro-theme-btn:hover {
+  background: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="modern"] .retro-theme-btn.active {
+  background: #0d3b66 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. GAYA MARINE: LUMINOUS COASTAL AZURE & OCEAN CRUISE (High-Contrast Marine)
+   Bright Seafoam Mist, Pure White Cards & Deep Oceanic Navy for Maximum Clarity
+   -------------------------------------------------------------------------- */
+[data-theme="marine"] body {
+  background-color: #f0f7fc !important; /* Luminous Seafoam Mist */
+  color: #0c2d48 !important; /* Deep Oceanic Navy */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+[data-theme="marine"] header {
+  background: #ffffff !important;
+  border-bottom: 3px solid #0077b6 !important; /* Vibrant Ocean Blue */
+  box-shadow: 0 4px 20px -2px rgba(0, 119, 182, 0.15), 0 2px 6px -1px rgba(0, 0, 0, 0.05) !important;
+  color: #072a4a !important;
+}
+
+[data-theme="marine"] header h1,
+[data-theme="marine"] header span,
+[data-theme="marine"] header a {
+  color: #072a4a !important;
+}
+
+[data-theme="marine"] #header-role-subbar {
+  background: #e8f4fc !important;
+  border-top: 1px solid #bde0fe !important;
+  color: #0c4a6e !important;
+}
+
+[data-theme="marine"] .marine-card,
+[data-theme="marine"] .card,
+[data-theme="marine"] .pax-card,
+[data-theme="marine"] .ticket-container,
+[data-theme="marine"] #modal-create-trip > div,
+[data-theme="marine"] #modal-qr > div,
+[data-theme="marine"] #modal-qr-code > div,
+[data-theme="marine"] #modal-edit-trip > div,
+[data-theme="marine"] #modal-manifest-preview > div {
+  background-color: #ffffff !important; /* Pure Crisp White */
+  border: 1.5px solid #0284c7 !important; /* Ocean Azure Border */
+  border-radius: 1.25rem !important;
+  box-shadow: 0 8px 25px -4px rgba(2, 132, 199, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.04) !important;
+  color: #0c2d48 !important;
+}
+
+[data-theme="marine"] .marine-card:hover {
+  border-color: #0077b6 !important;
+  box-shadow: 0 12px 30px -2px rgba(0, 119, 182, 0.2), 0 6px 15px -2px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="marine"] h1,
+[data-theme="marine"] h2,
+[data-theme="marine"] h3,
+[data-theme="marine"] h4 {
+  color: #072a4a !important; /* Deep Navy Heading */
+  letter-spacing: -0.02em;
+}
+
+[data-theme="marine"] .text-slate-800,
+[data-theme="marine"] .text-slate-900,
+[data-theme="marine"] .text-[#0d3b66] {
+  color: #072a4a !important;
+  font-weight: 700;
+}
+
+[data-theme="marine"] .text-slate-700,
+[data-theme="marine"] .text-slate-600 {
+  color: #1e3a5f !important; /* Rich Navy Slate */
+}
+
+[data-theme="marine"] .text-slate-500,
+[data-theme="marine"] .text-slate-400 {
+  color: #33537a !important; /* High Contrast Medium Slate */
+}
+
+[data-theme="marine"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="marine"] select,
+[data-theme="marine"] textarea {
+  background-color: #ffffff !important;
+  color: #0c2d48 !important;
+  border: 1.5px solid #93c5fd !important;
+  border-radius: 0.75rem !important;
+  font-weight: 600;
+}
+
+[data-theme="marine"] input:focus,
+[data-theme="marine"] select:focus,
+[data-theme="marine"] textarea:focus {
+  border-color: #0284c7 !important;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.25) !important;
+  outline: none !important;
+}
+
+[data-theme="marine"] button:not(.retro-theme-btn):not(.lang-switcher-btn),
+[data-theme="marine"] .btn,
+[data-theme="marine"] input[type="submit"] {
+  background: linear-gradient(135deg, #0077b6 0%, #023e8a 100%) !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  border: 1.5px solid #38bdf8 !important;
+  box-shadow: 0 4px 14px rgba(0, 119, 182, 0.25) !important;
+}
+
+[data-theme="marine"] button:not(.retro-theme-btn):not(.lang-switcher-btn):hover,
+[data-theme="marine"] .btn:hover {
+  background: linear-gradient(135deg, #0284c7 0%, #0077b6 100%) !important;
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.35) !important;
+}
+
+[data-theme="marine"] table {
+  background-color: #ffffff !important;
+  border: 1.5px solid #bae6fd !important;
+  color: #0c2d48 !important;
+}
+
+[data-theme="marine"] th {
+  background: #e0f2fe !important; /* Fresh Sky Blue Header */
+  color: #034475 !important;
+  border-bottom: 2px solid #0284c7 !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+[data-theme="marine"] tr {
+  border-bottom-color: #e2e8f0 !important;
+}
+
+[data-theme="marine"] tr:hover {
+  background-color: #f0f9ff !important;
+}
+
+[data-theme="marine"] td {
+  color: #0c2d48 !important;
+  font-weight: 600;
+}
+
+[data-theme="marine"] footer {
+  background: #ffffff !important;
+  border-top: 3px solid #0284c7 !important;
+  color: #33537a !important;
+}
+
+[data-theme="marine"] .lang-switcher-btn.active-lang {
+  background: #0077b6 !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="marine"] .retro-theme-btn {
+  background: transparent !important;
+  color: #33537a !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0.375rem !important;
+  padding: 0.25rem 0.6rem !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="marine"] .retro-theme-btn.active {
+  background: #0077b6 !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="marine"] .bg-slate-50,
+[data-theme="marine"] .bg-slate-100 {
+  background-color: #f0f7fc !important;
+  border-color: #bde0fe !important;
+}
+
+[data-theme="marine"] .bg-blue-50,
+[data-theme="marine"] .bg-blue-50\/60,
+[data-theme="marine"] .bg-blue-50\/80 {
+  background-color: #e0f2fe !important;
+  border-color: #7dd3fc !important;
+}
+
+[data-theme="marine"] .bg-amber-50,
+[data-theme="marine"] .bg-amber-50\/60,
+[data-theme="marine"] .bg-amber-50\/80 {
+  background-color: #fffbeb !important;
+  border-color: #fde68a !important;
+}
+
+[data-theme="marine"] .bg-emerald-50 {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. GAYA PIRATE: LUMINOUS TREASURE PARCHMENT & DUBLOON GOLD (Historic Buccaneer)
+   Bright Antique Nautical Map, Warm White Cards & Deep Walnut Ink for Razor Sharp Legibility
+   -------------------------------------------------------------------------- */
+[data-theme="pirate"] body {
+  background-color: #faf4e6 !important; /* Luminous Antique Sea Chart Parchment */
+  color: #241407 !important; /* Deep Captain's Walnut Ink */
+  font-family: 'Georgia', 'Times New Roman', serif !important;
+}
+
+[data-theme="pirate"] header {
+  background: #ffffff !important;
+  border-bottom: 3px solid #c59b27 !important; /* Antique Dubloon Gold Border */
+  box-shadow: 0 4px 20px -2px rgba(197, 155, 39, 0.18), 0 2px 6px -1px rgba(0, 0, 0, 0.05) !important;
+  color: #241407 !important;
+}
+
+[data-theme="pirate"] header h1,
+[data-theme="pirate"] header span,
+[data-theme="pirate"] header a {
+  color: #241407 !important;
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="pirate"] #header-role-subbar {
+  background: #fdf6e7 !important;
+  border-top: 1px solid #ebd498 !important;
+  color: #3b220c !important;
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="pirate"] .marine-card,
+[data-theme="pirate"] .card,
+[data-theme="pirate"] .pax-card,
+[data-theme="pirate"] .ticket-container,
+[data-theme="pirate"] #modal-create-trip > div,
+[data-theme="pirate"] #modal-qr > div,
+[data-theme="pirate"] #modal-qr-code > div,
+[data-theme="pirate"] #modal-edit-trip > div,
+[data-theme="pirate"] #modal-manifest-preview > div {
+  background-color: #ffffff !important; /* Pure Warm White */
+  border: 2px solid #c59b27 !important; /* Spanish Dubloon Gold Border */
+  border-radius: 1rem !important;
+  box-shadow: 0 8px 26px -4px rgba(197, 155, 39, 0.16), 0 4px 10px -2px rgba(0, 0, 0, 0.05) !important;
+  color: #241407 !important;
+}
+
+[data-theme="pirate"] .marine-card:hover {
+  border-color: #926c15 !important;
+  box-shadow: 0 12px 32px -2px rgba(197, 155, 39, 0.25), 0 6px 15px -2px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="pirate"] h1,
+[data-theme="pirate"] h2,
+[data-theme="pirate"] h3,
+[data-theme="pirate"] h4 {
+  color: #2c1605 !important; /* Antique Galleon Oak */
+  font-family: 'Georgia', serif !important;
+  letter-spacing: 0.02em;
+}
+
+[data-theme="pirate"] .text-slate-800,
+[data-theme="pirate"] .text-slate-900,
+[data-theme="pirate"] .text-[#0d3b66] {
+  color: #241407 !important;
+  font-family: 'Georgia', serif !important;
+  font-weight: 700;
+}
+
+[data-theme="pirate"] .text-slate-700,
+[data-theme="pirate"] .text-slate-600 {
+  color: #3d240d !important; /* Deep Walnut */
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="pirate"] .text-slate-500,
+[data-theme="pirate"] .text-slate-400 {
+  color: #59391a !important; /* High Contrast Timber Bronze */
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="pirate"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="pirate"] select,
+[data-theme="pirate"] textarea {
+  background-color: #ffffff !important;
+  color: #241407 !important;
+  border: 1.5px solid #d4be8f !important;
+  border-radius: 0.75rem !important;
+  font-family: 'Georgia', serif !important;
+  font-weight: 600;
+}
+
+[data-theme="pirate"] input:focus,
+[data-theme="pirate"] select:focus,
+[data-theme="pirate"] textarea:focus {
+  border-color: #c59b27 !important;
+  box-shadow: 0 0 0 3px rgba(197, 155, 39, 0.25) !important;
+  outline: none !important;
+}
+
+[data-theme="pirate"] button:not(.retro-theme-btn):not(.lang-switcher-btn),
+[data-theme="pirate"] .btn,
+[data-theme="pirate"] input[type="submit"] {
+  background: linear-gradient(135deg, #d4af37 0%, #a87e13 100%) !important; /* Spanish Dubloon Gold */
+  color: #1a0f05 !important;
+  font-weight: 800 !important;
+  font-family: 'Georgia', serif !important;
+  border: 1.5px solid #ffd700 !important;
+  box-shadow: 0 4px 14px rgba(197, 155, 39, 0.3) !important;
+}
+
+[data-theme="pirate"] button:not(.retro-theme-btn):not(.lang-switcher-btn):hover,
+[data-theme="pirate"] .btn:hover {
+  background: linear-gradient(135deg, #e6c555 0%, #be901c 100%) !important;
+  box-shadow: 0 6px 18px rgba(197, 155, 39, 0.45) !important;
+}
+
+[data-theme="pirate"] table {
+  background-color: #ffffff !important;
+  border: 1.5px solid #ebd498 !important;
+  color: #241407 !important;
+}
+
+[data-theme="pirate"] th {
+  background: #fbf3dc !important; /* Antique Parchment Header */
+  color: #2c1605 !important;
+  border-bottom: 2px solid #c59b27 !important;
+  font-family: 'Georgia', serif !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+[data-theme="pirate"] tr {
+  border-bottom-color: #f2e7cc !important;
+}
+
+[data-theme="pirate"] tr:hover {
+  background-color: #fbf7ee !important;
+}
+
+[data-theme="pirate"] td {
+  color: #241407 !important;
+  font-family: 'Georgia', serif !important;
+  font-weight: 600;
+}
+
+[data-theme="pirate"] footer {
+  background: #ffffff !important;
+  border-top: 3px solid #c59b27 !important;
+  color: #59391a !important;
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="pirate"] .lang-switcher-btn.active-lang {
+  background: #c59b27 !important;
+  color: #1a0f05 !important;
+  border: 1px solid #ffd700 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="pirate"] .retro-theme-btn {
+  background: transparent !important;
+  color: #59391a !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0.375rem !important;
+  padding: 0.25rem 0.6rem !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  font-family: 'Georgia', serif !important;
+}
+
+[data-theme="pirate"] .retro-theme-btn.active {
+  background: #c59b27 !important;
+  color: #1a0f05 !important;
+  border: 1px solid #ffd700 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="pirate"] .bg-slate-50,
+[data-theme="pirate"] .bg-slate-100 {
+  background-color: #fdf8eb !important;
+  border-color: #ebd498 !important;
+}
+
+[data-theme="pirate"] .bg-blue-50,
+[data-theme="pirate"] .bg-blue-50\/60,
+[data-theme="pirate"] .bg-blue-50\/80 {
+  background-color: #eaf4fd !important;
+  border-color: #bde0fe !important;
+}
+
+[data-theme="pirate"] .bg-amber-50,
+[data-theme="pirate"] .bg-amber-50\/60,
+[data-theme="pirate"] .bg-amber-50\/80 {
+  background-color: #fff9e6 !important;
+  border-color: #fcd34d !important;
+}
+
+[data-theme="pirate"] .bg-emerald-50 {
+  background-color: #eefcf3 !important;
+  border-color: #a7f3d0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. GAYA PREMIUM GOLD: LUMINOUS PEARL & 24K ROYAL GOLD (Executive Luxury)
+   Ultra-High Contrast, Pristine White & Deep Navy for Maximum Legibility
+   -------------------------------------------------------------------------- */
+[data-theme="premium"] body {
+  background-color: #faf9f6 !important; /* Luminous Warm Pearl */
+  color: #0f172a !important; /* Deep Obsidian Slate */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+[data-theme="premium"] header {
+  background: #ffffff !important;
+  border-bottom: 3px solid #d4af37 !important; /* 24K Royal Gold Border */
+  box-shadow: 0 4px 20px -2px rgba(212, 175, 55, 0.15), 0 2px 6px -1px rgba(0, 0, 0, 0.05) !important;
+  color: #0d2238 !important;
+}
+
+[data-theme="premium"] header h1,
+[data-theme="premium"] header span,
+[data-theme="premium"] header a {
+  color: #0d2238 !important;
+}
+
+[data-theme="premium"] #header-role-subbar {
+  background: #fdfbf7 !important;
+  border-top: 1px solid #ebd999 !important;
+  color: #1e293b !important;
+}
+
+[data-theme="premium"] .marine-card,
+[data-theme="premium"] .card,
+[data-theme="premium"] .pax-card,
+[data-theme="premium"] .ticket-container,
+[data-theme="premium"] #modal-create-trip > div,
+[data-theme="premium"] #modal-qr > div,
+[data-theme="premium"] #modal-qr-code > div,
+[data-theme="premium"] #modal-edit-trip > div,
+[data-theme="premium"] #modal-manifest-preview > div {
+  background-color: #ffffff !important; /* Pure Crisp White */
+  border: 1.5px solid #d4af37 !important; /* 24K Gold Trim */
+  border-radius: 1.25rem !important;
+  box-shadow: 0 8px 30px -4px rgba(212, 175, 55, 0.12), 0 4px 10px -2px rgba(0, 0, 0, 0.04) !important;
+  color: #0f172a !important;
+}
+
+[data-theme="premium"] .marine-card:hover {
+  border-color: #b8860b !important;
+  box-shadow: 0 12px 35px -2px rgba(212, 175, 55, 0.22), 0 6px 15px -2px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="premium"] h1,
+[data-theme="premium"] h2,
+[data-theme="premium"] h3,
+[data-theme="premium"] h4 {
+  color: #0d2238 !important; /* Deep Royal Navy */
+  letter-spacing: -0.02em;
+}
+
+[data-theme="premium"] .text-slate-800,
+[data-theme="premium"] .text-slate-900,
+[data-theme="premium"] .text-[#0d3b66] {
+  color: #0d2238 !important;
+  font-weight: 700;
+}
+
+[data-theme="premium"] .text-slate-700,
+[data-theme="premium"] .text-slate-600 {
+  color: #334155 !important; /* Deep Slate - 100% legible */
+}
+
+[data-theme="premium"] .text-slate-500,
+[data-theme="premium"] .text-slate-400 {
+  color: #475569 !important; /* Enhanced Contrast */
+}
+
+[data-theme="premium"] input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="premium"] select,
+[data-theme="premium"] textarea {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1.5px solid #cbd5e1 !important;
+  border-radius: 0.75rem !important;
+  font-weight: 600;
+}
+
+[data-theme="premium"] input:focus,
+[data-theme="premium"] select:focus,
+[data-theme="premium"] textarea:focus {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25) !important;
+  outline: none !important;
+}
+
+[data-theme="premium"] button:not(.retro-theme-btn):not(.lang-switcher-btn),
+[data-theme="premium"] .btn,
+[data-theme="premium"] input[type="submit"] {
+  background: linear-gradient(135deg, #0d2238 0%, #071524 100%) !important;
+  color: #ffd700 !important; /* 24K Gold Text on Navy */
+  font-weight: 800 !important;
+  border: 1.5px solid #d4af37 !important;
+  box-shadow: 0 4px 14px rgba(13, 34, 56, 0.25) !important;
+}
+
+[data-theme="premium"] button:not(.retro-theme-btn):not(.lang-switcher-btn):hover,
+[data-theme="premium"] .btn:hover {
+  background: linear-gradient(135deg, #132f4c 0%, #0d2238 100%) !important;
+  border-color: #ffdf00 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3) !important;
+}
+
+[data-theme="premium"] table {
+  background-color: #ffffff !important;
+  border: 1.5px solid #ebd999 !important;
+  color: #0f172a !important;
+}
+
+[data-theme="premium"] th {
+  background: #fdf8ed !important; /* Champagne Gold Header */
+  color: #0d2238 !important;
+  border-bottom: 2px solid #d4af37 !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+[data-theme="premium"] tr {
+  border-bottom-color: #f1f5f9 !important;
+}
+
+[data-theme="premium"] tr:hover {
+  background-color: #fdfaf2 !important; /* Soft Gold Hover */
+}
+
+[data-theme="premium"] td {
+  color: #0f172a !important;
+  font-weight: 600;
+}
+
+[data-theme="premium"] footer {
+  background: #ffffff !important;
+  border-top: 3px solid #d4af37 !important;
+  color: #475569 !important;
+}
+
+[data-theme="premium"] .lang-switcher-btn.active-lang {
+  background: #0d2238 !important;
+  color: #ffd700 !important;
+  border: 1px solid #d4af37 !important;
+  font-weight: 800 !important;
+}
+
+[data-theme="premium"] .retro-theme-btn {
+  background: transparent !important;
+  color: #475569 !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0.375rem !important;
+  padding: 0.25rem 0.6rem !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="premium"] .retro-theme-btn.active {
+  background: #0d2238 !important;
+  color: #ffd700 !important;
+  border: 1px solid #d4af37 !important;
+  font-weight: 700 !important;
+}
+
+[data-theme="premium"] .bg-slate-50,
+[data-theme="premium"] .bg-slate-100 {
+  background-color: #fdfbf7 !important;
+  border-color: #ebd999 !important;
+}
+
+[data-theme="premium"] .bg-blue-50,
+[data-theme="premium"] .bg-blue-50\/60,
+[data-theme="premium"] .bg-blue-50\/80 {
+  background-color: #f0f7ff !important;
+  border-color: #bae6fd !important;
+}
+
+[data-theme="premium"] .bg-amber-50,
+[data-theme="premium"] .bg-amber-50\/60,
+[data-theme="premium"] .bg-amber-50\/80 {
+  background-color: #fffbeb !important;
+  border-color: #fde68a !important;
+}
+
+[data-theme="premium"] .bg-emerald-50 {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+}
+
+
+
+

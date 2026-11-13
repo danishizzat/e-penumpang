@@ -1,0 +1,16 @@
+{
+  "name": "e-penumpang",
+  "version": "1.0.0",
+  "description": "Sistem Pendaftaran Penumpang Bot Pelancongan Bersepadu - MarineCareerHub & Jabatan Laut Malaysia",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node test_e_penumpang.js",
+    "test:en": "node test_e_penumpang_en.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "private": true
+}

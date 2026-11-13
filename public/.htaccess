@@ -1,0 +1,22 @@
+DirectoryIndex index.html index.htm
+
+# Enable Rewrite Engine for REST API
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Route all /api/* requests to api.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^api/(.*)$ api.php?endpoint=$1 [QSA,L]
+</IfModule>
+
+# Allow public access to all static web assets
+<IfModule mod_authz_core.c>
+    Require all granted
+</IfModule>
+
+# Proper MIME types for PWA & modern web
+AddType application/manifest+json .json
+AddType application/javascript .js
+AddType text/css .css

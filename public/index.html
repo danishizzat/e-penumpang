@@ -1,0 +1,2031 @@
+<!DOCTYPE html>
+<html lang="en-GB" data-theme="modern">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>e-PENUMPANG | MarineCareerHub Malaysia</title>
+  
+  <!-- PWA & Mobile Phone App Capabilities -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d3b66">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="e-PENUMPANG">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Styles & Print Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Internationalization (i18n) Engine -->
+  <script src="js/i18n.js?v=20260923h"></script>
+  
+  <!-- Tailwind Custom Colors Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            smcNavy: '#0d3b66',
+            smcNavyDark: '#072340',
+            smcOcean: '#0077b6',
+            smcCyan: '#00b4d8',
+            smcOrange: '#f77f00',
+            smcGold: '#ffb703'
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-slate-50 text-slate-900 flex flex-col min-h-screen antialiased selection:bg-[#0d3b66] selection:text-white">
+
+  <!-- ============================================================
+       TOP HEADER & EXECUTIVE NAVIGATION BAR
+       ============================================================ -->
+  <header class="bg-white/95 backdrop-blur-md text-slate-800 shadow-xs border-b border-slate-200/80 sticky top-0 z-40 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center">
+        <a href="index.html" id="header-brand-link" class="flex items-center gap-3 sm:gap-4 py-1 group transition-all">
+          <div class="h-13 sm:h-15 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform">
+            <img src="assets/marinecareerhub-logo.png" alt="MarineCareerHub Logo" class="h-12 sm:h-14 w-auto object-contain">
+          </div>
+          <div class="h-9 w-px bg-slate-200 hidden sm:block"></div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[11px] sm:text-[12px] tracking-wide font-extrabold text-[#0d3b66]">MarineCareerHub</span>
+              <span class="bg-[#f77f00] text-white text-[9px] font-bold px-1.5 py-0.2 rounded shadow-xs">MCH</span>
+            </div>
+            <h1 class="text-lg sm:text-xl md:text-2xl font-black tracking-tight flex items-baseline gap-1 text-[#0d3b66]">
+              <span class="text-[#0077b6]">e-</span><span>PENUMPANG</span>
+              <span class="text-xs font-normal text-slate-500 hidden lg:inline-block ml-1" data-i18n="system_title">| Tourist Boat Passenger Registration System</span>
+            </h1>
+          </div>
+        </a>
+      </div>
+
+      <!-- Right Header Actions (Language + Auth Bar) -->
+      <div class="flex items-center gap-2.5">
+
+        <!-- Language Switcher Pill Button -->
+        <div class="bg-slate-100 p-1 rounded-lg border border-slate-200 flex items-center gap-1 text-xs shadow-inner" title="Switch Language / Tukar Bahasa">
+          <button type="button" class="lang-switcher-btn px-2.5 py-1 rounded-md text-xs font-bold transition-all text-slate-700 hover:text-slate-900" data-lang="en">
+            ENG
+          </button>
+          <button type="button" class="lang-switcher-btn px-2.5 py-1 rounded-md text-xs font-bold transition-all text-slate-700 hover:text-slate-900" data-lang="ms">
+            BM
+          </button>
+        </div>
+
+
+
+        <!-- PWA Install Button (Shown dynamically on installable devices) -->
+        <button id="btn-pwa-install" type="button" class="hidden items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-900 font-extrabold text-xs shadow-xs transition-all" title="Install App to Home Screen">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span data-i18n="pwa_install_btn">Install App</span>
+        </button>
+
+        <!-- User Auth State & Actions in Header -->
+        <div id="header-auth-container" class="flex items-center gap-2">
+          <div class="flex items-center gap-2 text-xs">
+            <span class="text-slate-500 font-medium hidden sm:inline" data-i18n="header_safety_compliance">Safety Compliance</span>
+            <button id="btn-header-login" type="button" class="py-1.5 px-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg transition-colors flex items-center gap-1 shadow-sm">
+              <i data-lucide="log-in" class="w-3.5 h-3.5"></i>
+              <span data-i18n="btn_login">Log In</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Role Context Sub-Bar (When Logged In) -->
+    <div id="header-role-subbar" class="bg-slate-50 border-t border-slate-200 px-4 sm:px-6 lg:px-8 py-1.5 hidden">
+      <div class="max-w-7xl mx-auto flex items-center justify-between text-xs">
+        <div id="role-welcome-text" class="flex items-center gap-2 text-slate-700 font-medium">
+          <!-- Welcome message rendered dynamically -->
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-slate-400 hidden sm:inline text-[11px]" data-i18n="system_subtext">MarineCareerHub Malaysia • Integrated Maritime Safety Platform</span>
+          <span id="role-badge-tag" class="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
+            <!-- CAPTAIN / ADMIN -->
+          </span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ -->
+  <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 no-print">
+
+    <!-- ============================================================
+         VIEW -1: LANDING PAGE (CLEAN & DIRECT)
+         ============================================================ -->
+    <div id="view-landing" class="max-w-4xl mx-auto space-y-6 py-4 sm:py-8">
+      
+      <!-- Welcoming Hero & Live Sea Status (Passengers just view) -->
+      <section class="bg-gradient-to-br from-[#1e4e79] via-[#0284c7] to-[#0ea5e9] text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-sky-300/30 text-center relative overflow-hidden">
+        <!-- Ambient Decorative Glows -->
+        <div class="absolute -top-24 -right-24 w-80 h-80 bg-white/15 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-sky-200/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 space-y-3">
+          <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/20 hover:bg-white/25 text-white text-xs font-black tracking-wide border border-white/40 shadow-sm backdrop-blur-sm mb-1 transition-all">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-amber-300"></i>
+            <span data-i18n="landing_hero_badge">Official Tourist Boat Safety System</span>
+          </div>
+
+          <div>
+            <div class="inline-flex items-center justify-center bg-white px-6 py-2.5 sm:py-3 rounded-2xl shadow-md border border-white/90 mx-auto my-1 transition-all">
+              <img src="assets/marinecareerhub-logo.png" alt="MarineCareerHub" class="h-12 sm:h-14 w-auto object-contain">
+            </div>
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-white leading-tight">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-sky-100 to-amber-200">e-PENUMPANG</span>
+            <span class="block text-base sm:text-lg md:text-xl font-bold text-sky-50 mt-1" data-i18n="landing_hero_title">
+              Integrated Tourist Boat Passenger Registration &amp; Maritime Safety
+            </span>
+          </h2>
+
+          <p class="text-xs sm:text-sm text-sky-100 max-w-lg mx-auto" data-i18n="landing_hero_subtitle">
+            MarineCareerHub Malaysia • Jabatan Laut Malaysia Safety Compliance
+          </p>
+
+          <!-- Live Sea State & Port Departure Status Pill (Passenger informational view) -->
+          <div id="landing-weather-banner" class="mt-4 inline-flex flex-wrap items-center justify-center gap-2.5 bg-black/20 hover:bg-black/25 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/30 text-xs text-white shadow-inner">
+            <span class="flex items-center gap-1.5 font-bold text-amber-300">
+              <i data-lucide="waves" class="w-4 h-4"></i>
+              <span id="landing-weather-port">Jeti Kuala Besut</span>
+            </span>
+            <span class="text-sky-200/60">•</span>
+            <span><span data-i18n="weather_sea_label">Sea State:</span> <strong id="landing-weather-sea-state" data-i18n="weather_sea_calm" class="text-white font-bold">Calm / Smooth</strong></span>
+            <span class="text-sky-200/60">•</span>
+            <span><span data-i18n="weather_wave_label">Wave:</span> <strong id="landing-weather-wave" class="text-white font-bold">0.5m – 1.0m</strong></span>
+            <span class="text-sky-200/60 hidden sm:inline">•</span>
+            <span class="hidden sm:inline"><span data-i18n="weather_wind_label">Wind:</span> <span id="landing-weather-wind" class="text-sky-100">10 – 20 km/h</span></span>
+            <span id="landing-weather-status-pill" class="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-emerald-500/30 text-emerald-200 border border-emerald-400/40 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span>
+              <span id="landing-weather-status-text" data-i18n="weather_status_granted">DEPARTURE CLEARANCE GRANTED</span>
+            </span>
+            <button id="btn-open-weather-modal-landing" type="button" class="text-[11px] font-bold text-amber-300 hover:text-white underline ml-1" data-i18n="weather_btn_details">
+              Info
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Direct Operator & Authority Portal (Boat Captains & MCH Admin) -->
+      <div class="max-w-xl mx-auto">
+        <div class="bg-white border-2 border-blue-200 hover:border-[#0d3b66] rounded-3xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <div class="w-12 h-12 rounded-2xl bg-blue-50 text-[#0d3b66] flex items-center justify-center border border-blue-100">
+                <i data-lucide="shield-check" class="w-6 h-6 text-[#0077b6]"></i>
+              </div>
+              <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-blue-100 text-blue-900 tracking-wider" data-i18n="portal_tekong_subtitle">Boat Operators &amp; Masters</span>
+            </div>
+
+            <h3 class="text-xl sm:text-2xl font-black text-slate-900" data-i18n="landing_simple_users_title">Boat Captains &amp; Vessel Masters</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed" data-i18n="landing_simple_users_desc">
+              Direct portal for vessel clearance, passenger manifest submission, and maritime safety compliance.
+            </p>
+
+            <!-- Quick Demo 1-Click Login Shortcuts -->
+            <div class="mt-5">
+              <div class="text-[11px] font-bold text-slate-500 mb-2 uppercase tracking-wide" data-i18n="demo_quick_test">
+                Quick Test (1-Click Demo Login):
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <button id="btn-portal-tekong-demo" type="button" class="p-3 rounded-2xl border border-blue-200 bg-blue-50/80 hover:bg-blue-100 text-[#0d3b66] font-bold text-left transition-colors flex items-center gap-2.5 text-xs shadow-2xs">
+                  <i data-lucide="anchor" class="w-4 h-4 text-[#0077b6] flex-shrink-0"></i>
+                  <span class="block text-xs font-black truncate" data-i18n="demo_tekong_title">Captain Rosli</span>
+                </button>
+                <button id="btn-portal-jlm-demo" type="button" class="p-3 rounded-2xl border border-blue-900 bg-blue-900/10 hover:bg-blue-900/20 text-[#0d3b66] font-bold text-left transition-colors flex items-center gap-2.5 text-xs shadow-2xs">
+                  <i data-lucide="shield-alert" class="w-4 h-4 text-[#0d3b66] flex-shrink-0"></i>
+                  <span class="block text-xs font-black truncate" data-i18n="demo_jlm_title">Jabatan Laut (jlm)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 pt-5 border-t border-slate-100">
+            <button id="btn-portal-login-direct" type="button" class="w-full py-3.5 px-4 bg-[#0d3b66] hover:bg-[#072340] text-white font-bold rounded-2xl text-sm flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg">
+              <i data-lucide="log-in" class="w-4 h-4 text-amber-400"></i>
+              <span data-i18n="landing_simple_users_btn">Direct to Login / Register</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 0: AUTHENTICATION (LOGIN & REGISTRATION)
+         ============================================================ -->
+    <div id="view-auth" class="max-w-lg mx-auto space-y-6 py-4 hidden">
+      
+      <!-- Back to Home Navigation Button -->
+      <div class="flex items-center justify-between">
+        <button id="btn-auth-back-landing" type="button" class="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-[#0d3b66] transition-colors bg-white hover:bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs">
+          <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+          <span data-i18n="nav_back_home">Back to Home</span>
+        </button>
+      </div>
+
+      <!-- Welcome Card -->
+      <div class="marine-card p-6 sm:p-8 shadow-sm border border-slate-200 text-center relative bg-white rounded-2xl">
+        <div class="h-28 max-w-[280px] mx-auto mb-5 flex items-center justify-center">
+          <img src="assets/marinecareerhub-logo.png" alt="MarineCareerHub" class="h-full w-auto object-contain">
+        </div>
+        <h2 class="text-2xl font-black text-[#0d3b66]" data-i18n="login_title">e-PENUMPANG System Login</h2>
+        <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto" data-i18n="login_subtitle">
+          Please log in according to your role to manage tourist boat operations or MarineCareerHub maritime safety monitoring.
+        </p>
+
+        <!-- Auth Tabs: Log In vs Register Account -->
+        <div class="grid grid-cols-2 gap-1 bg-slate-100 p-1 rounded-xl mt-6 text-xs font-bold">
+          <button id="tab-auth-login" class="py-2 rounded-lg transition-all bg-white text-[#0d3b66] shadow-sm" data-i18n="tab_login">
+            Log In
+          </button>
+          <button id="tab-auth-register" class="py-2 rounded-lg transition-all text-slate-500 hover:text-slate-800" data-i18n="tab_register">
+            Register New Account
+          </button>
+        </div>
+
+        <!-- Form 1: Log In -->
+        <form id="form-login" autocomplete="off" class="mt-6 text-left space-y-4 text-xs">
+          <div>
+            <label class="block font-bold text-slate-700 uppercase mb-1 flex items-center justify-between">
+              <span data-i18n="label_user_id">Full Name / Seafarer ID / Staff ID</span>
+              <span class="text-[10px] text-sky-600 font-normal" data-i18n="label_user_id_hint">Captains or Staff ID</span>
+            </label>
+            <div class="relative">
+              <i data-lucide="user" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+              <input type="text" id="login-username" autocomplete="username" required data-i18n-placeholder="placeholder_user_id" placeholder="e.g. Captain Rosli, MCH-TK-1002, or Staff ID" class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 font-medium focus:ring-2 focus:ring-sky-500 focus:outline-none text-sm">
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1" data-i18n="login_helper_tekong">
+              * Boat captains can log in directly using their registered Full Name. Staff log in using assigned unique ID.
+            </p>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 uppercase mb-1" data-i18n="label_password">Password</label>
+            <div class="relative">
+              <i data-lucide="lock" class="w-4 h-4 absolute left-3 top-3 text-slate-400"></i>
+              <input type="password" id="login-password" autocomplete="current-password" required data-i18n-placeholder="placeholder_password" placeholder="Enter your password" class="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-300 font-medium focus:ring-2 focus:ring-sky-500 focus:outline-none text-sm">
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3 rounded-xl font-bold bg-[#0d3b66] hover:bg-[#072340] text-white text-sm shadow-md transition-all flex items-center justify-center gap-2">
+            <i data-lucide="log-in" class="w-4 h-4 text-amber-400"></i>
+            <span data-i18n="btn_submit_login">Log In to System</span>
+          </button>
+        </form>
+
+        <!-- Form 2: Register New Account (Restricted to Boat Captains) -->
+        <form id="form-register" autocomplete="off" class="mt-6 text-left space-y-4 text-xs hidden">
+          <input type="hidden" name="regRole" value="TEKONG">
+
+          <!-- Helpful Notice for Captain -->
+          <div id="reg-tekong-notice" class="p-3 rounded-xl bg-sky-50 border border-sky-200 text-sky-900 text-[11px] font-medium flex items-center gap-2">
+            <i data-lucide="anchor" class="w-4 h-4 text-[#0077b6] flex-shrink-0"></i>
+            <span data-i18n="reg_tekong_notice">Boat Captain &amp; Master Registration (Staff accounts are pre-assigned by administration).</span>
+          </div>
+
+          <div>
+            <label class="block font-bold text-slate-700 uppercase mb-1 flex items-center justify-between">
+              <span data-i18n="reg_fullname_label">Full Name (For Registration &amp; Login) *</span>
+              <span class="text-[10px] text-emerald-600 font-semibold" data-i18n="reg_fullname_hint">Used for logging in</span>
+            </label>
+            <input type="text" name="regFullName" id="reg-fullname" autocomplete="off" required data-i18n-placeholder="placeholder_fullname" placeholder="e.g. Captain Zulkifli bin Daud" class="w-full p-2.5 rounded-xl border border-slate-300 font-medium focus:ring-2 focus:ring-sky-500 focus:outline-none text-sm">
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block font-bold text-slate-700 uppercase mb-1" data-i18n="label_new_password">Password *</label>
+              <input type="password" name="regPassword" autocomplete="new-password" required data-i18n-placeholder="placeholder_new_password" placeholder="Create password" class="w-full p-2.5 rounded-xl border border-slate-300 font-medium focus:ring-2 focus:ring-sky-500 focus:outline-none text-sm">
+            </div>
+            <div>
+              <label class="block font-bold text-slate-700 uppercase mb-1" data-i18n="label_phone_opt">Phone Number (Optional)</label>
+              <input type="tel" name="regPhone" autocomplete="off" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/\D/g, '')" data-i18n-placeholder="placeholder_phone" placeholder="e.g. 0123456789" class="w-full p-2.5 rounded-xl border border-slate-300 font-mono focus:ring-2 focus:ring-sky-500 focus:outline-none text-sm">
+            </div>
+          </div>
+
+          <!-- Dynamic Fields for Captain -->
+          <div id="reg-tekong-fields" class="space-y-3 p-3 bg-blue-50/60 rounded-xl border border-blue-200">
+            <!-- Captain National ID with Letterbox Segmented Box (Malaysian Only) -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between">
+                <label class="block font-bold text-slate-700 uppercase" data-i18n="label_captain_ic">Captain National ID (MyKad) *</label>
+                <!-- Malaysian Citizen Badge -->
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-700 shadow-2xs">
+                  <span>🇲🇾</span>
+                  <span data-i18n="reg_driver_malaysian_only">Warganegara Malaysia (MyKad Sahaja)</span>
+                </span>
+                <input type="hidden" name="regIcType" value="mykad" id="radio-ic-mykad">
+              </div>
+
+              <!-- MyKad Letterbox 3-Box Segment (6 - 2 - 4) -->
+              <div id="container-reg-mykad" class="flex items-center gap-1.5">
+                <input type="text" id="reg-mykad-1" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="920514" class="w-28 text-center font-mono font-bold tracking-widest text-sm p-2 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-sky-500 focus:outline-none shadow-2xs" title="6 digit tarikh lahir (YYMMDD)">
+                <span class="text-slate-400 font-bold">-</span>
+                <input type="text" id="reg-mykad-2" maxlength="2" inputmode="numeric" pattern="[0-9]*" placeholder="03" class="w-16 text-center font-mono font-bold tracking-widest text-sm p-2 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-sky-500 focus:outline-none shadow-2xs" title="2 digit kod negeri (PB)">
+                <span class="text-slate-400 font-bold">-</span>
+                <input type="text" id="reg-mykad-3" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="5213" class="w-24 text-center font-mono font-bold tracking-widest text-sm p-2 rounded-lg border border-slate-300 bg-white focus:ring-2 focus:ring-sky-500 focus:outline-none shadow-2xs" title="4 digit nombor giliran (###G)">
+              </div>
+
+              <!-- Hidden Consolidated Input -->
+              <input type="hidden" name="regIcPassport" id="reg-ic-passport">
+              <p class="text-[10px] text-slate-500 flex items-center gap-1" id="reg-ic-hint">
+                <i data-lucide="info" class="w-3 h-3 text-sky-500 flex-shrink-0"></i>
+                <span data-i18n="reg_mykad_box_hint">Auto-advance letterbox (6 digits - 2 digits - 4 digits)</span>
+              </p>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 uppercase mb-1" data-i18n="label_license_opt">SID Seafarer Identification No. (Optional)</label>
+              <input type="text" name="regLicenseNo" data-i18n-placeholder="placeholder_license" placeholder="e.g. 202523023697 (or leave blank)" class="w-full p-2 rounded-lg border border-slate-300 font-mono text-xs">
+            </div>
+
+            <!-- Boat Type Dropdown -->
+            <div>
+              <label class="block font-bold text-slate-700 uppercase mb-1" data-i18n="label_boat_type">Type of Boat *</label>
+              <select id="reg-boat-type" name="regBoatType" class="w-full p-2 rounded-lg border border-slate-300 font-bold text-slate-800 bg-white focus:ring-2 focus:ring-sky-500 focus:outline-none text-xs">
+                <option value="mini_speedboat" data-capacity="12" data-i18n="reg_boat_type_mini">Mini Speedboat (12 Pax)</option>
+                <option value="medium_speedboat" data-capacity="24" data-i18n="reg_boat_type_medium">Medium Speedboat (24 Pax)</option>
+                <option value="ferry" data-capacity="40" data-i18n="reg_boat_type_ferry">Ferry (40 Pax)</option>
+              </select>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div>
+                <label class="block font-bold text-slate-700 uppercase mb-1" data-i18n="label_boat_name">Primary Boat Name</label>
+                <input type="text" name="regBoatName" data-i18n-placeholder="placeholder_boat_name" placeholder="e.g. Blue Wave 01" class="w-full p-2 rounded-lg border border-slate-300 text-xs">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 uppercase mb-1" data-i18n="label_boat_reg">Registration Number</label>
+                <input type="text" name="regBoatRegNo" data-i18n-placeholder="placeholder_boat_reg" placeholder="e.g. TR-7788-B" class="w-full p-2 rounded-lg border border-slate-300 font-mono uppercase text-xs">
+              </div>
+            </div>
+
+            <!-- Licensed Boat Capacity (Hidden per user request; auto-set from Type of Boat) -->
+            <div class="hidden">
+              <input type="number" id="reg-boat-capacity" name="regBoatCapacity" value="12">
+              <span id="reg-capacity-badge-text">Locked (12)</span>
+              <p id="reg-capacity-subtext"></p>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3 rounded-xl font-bold bg-[#0077b6] hover:bg-[#0096c7] text-white text-sm shadow-md transition-all flex items-center justify-center gap-2">
+            <i data-lucide="user-plus" class="w-4 h-4"></i>
+            <span data-i18n="btn_submit_register">Register New Account</span>
+          </button>
+        </form>
+
+        <!-- Quick 1-Click Demo Logins for Convenience -->
+        <div class="mt-6 pt-5 border-t border-slate-100 text-xs">
+          <span class="text-slate-400 font-semibold uppercase tracking-wider block mb-2 text-[10px]" data-i18n="demo_quick_test">Quick Test (1-Click Demo Login):</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button id="btn-quick-tekong" type="button" class="p-2.5 rounded-xl border border-blue-200 bg-blue-50/80 hover:bg-blue-100 text-[#0d3b66] font-bold text-left transition-colors flex items-center gap-2">
+              <i data-lucide="anchor" class="w-4 h-4 text-[#0077b6]"></i>
+              <span class="block text-xs font-black" data-i18n="demo_tekong_title">Captain Rosli</span>
+            </button>
+
+            <button id="btn-quick-jlm" type="button" class="p-2.5 rounded-xl border border-blue-900 bg-blue-900/10 hover:bg-blue-900/20 text-[#0d3b66] font-bold text-left transition-colors flex items-center gap-2">
+              <i data-lucide="shield-alert" class="w-4 h-4 text-[#0d3b66]"></i>
+              <span class="block text-xs font-black" data-i18n="demo_jlm_title">Jabatan Laut (jlm)</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 1: DEDICATED CAPTAIN / MASTER PORTAL
+         ============================================================ -->
+    <div id="view-tekong" class="space-y-6 hidden">
+
+      <!-- Skipper Header Bar -->
+      <div class="marine-card bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-sm flex flex-col items-stretch justify-between gap-4 relative">
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center text-[#0d3b66] border border-blue-100 flex-shrink-0">
+            <i data-lucide="anchor" class="w-6 h-6 text-[#0077b6]"></i>
+          </div>
+          <div class="min-w-0 flex-1 sm:flex-initial">
+            <label for="tekong-trip-select" class="block text-xs font-bold text-slate-500 uppercase tracking-wider" data-i18n="tekong_trip_select_label">
+              Select Your Active Boat Trip:
+            </label>
+            <select id="tekong-trip-select" class="font-bold text-slate-800 bg-slate-50 border border-slate-300 rounded-lg px-3 py-1.5 text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none w-full sm:min-w-[260px] truncate">
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          <button id="btn-open-create-trip" class="py-2.5 px-4 rounded-xl font-bold bg-[#0d3b66] hover:bg-[#072340] text-white text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all">
+            <i data-lucide="plus-circle" class="w-4 h-4 text-amber-400"></i>
+            <span data-i18n="tekong_btn_step1">1. Create New Trip</span>
+          </button>
+
+          <button id="btn-open-qr-modal" class="py-2.5 px-4 rounded-xl font-bold bg-[#0077b6] hover:bg-[#0096c7] text-white text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all">
+            <i data-lucide="qr-code" class="w-4 h-4 text-white"></i>
+            <span data-i18n="tekong_btn_step2">2. View Trip QR Code</span>
+          </button>
+        </div>
+        </div>
+      </div>
+
+      <!-- Maritime Weather & Sea State Advisory Banner (Jabatan Laut & METMalaysia) -->
+      <div id="tekong-weather-banner" class="bg-gradient-to-r from-slate-900 via-[#0d3b66] to-slate-900 text-white rounded-2xl p-4 shadow-sm border border-slate-700/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 text-sky-400">
+            <i data-lucide="waves" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-[10px] uppercase font-bold tracking-wider text-sky-300" data-i18n="weather_jlm_badge">Jabatan Laut &amp; METMalaysia Advisory</span>
+              <span id="tekong-weather-port" class="text-xs font-bold text-white bg-white/10 px-2 py-0.5 rounded">Jeti Kuala Besut</span>
+              <span id="tekong-weather-status-pill" class="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span id="tekong-weather-status-text">PELEPASAN DIBENARKAN</span>
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 mt-1 flex items-center gap-3 flex-wrap font-medium">
+              <span><strong class="text-white font-bold" data-i18n="weather_sea_label">Sea State:</strong> <span id="tekong-weather-sea-state">Tenang / Baik</span></span>
+              <span>•</span>
+              <span><strong class="text-white font-bold" data-i18n="weather_wave_label">Wave:</strong> <span id="tekong-weather-wave">0.5m – 1.0m</span></span>
+              <span>•</span>
+              <span><strong class="text-white font-bold" data-i18n="weather_wind_label">Wind:</strong> <span id="tekong-weather-wind">10 – 20 km/j Barat Daya</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 self-end md:self-auto">
+          <button id="btn-open-weather-modal-tekong" class="text-xs font-bold text-sky-200 hover:text-white bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-sky-300"></i>
+            <span data-i18n="weather_btn_details">Advisory Details</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Operations Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Left Column: Active Trip Card & Capacity Meter -->
+        <div class="lg:col-span-1 space-y-6">
+          
+          <!-- Boat & Trip Details Card -->
+          <div class="marine-card p-5">
+            <div class="flex items-start justify-between border-b border-slate-100 pb-3 mb-4">
+              <div>
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block" data-i18n="tekong_card_vessel_skipper">VESSEL &amp; CAPTAIN</span>
+                <h3 id="tekong-boat-name" class="text-xl font-black text-[#0d3b66]" data-i18n="tekong_boat_loading">Loading Boat Particulars...</h3>
+                <div class="flex items-center gap-1.5 flex-wrap mt-1">
+                  <span id="tekong-boat-reg" class="text-xs font-mono font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">-</span>
+                  <span id="tekong-boat-type-badge" class="text-[10px] font-bold text-sky-800 bg-sky-100 border border-sky-200 px-2 py-0.5 rounded-full">-</span>
+                </div>
+              </div>
+              <span id="tekong-trip-status-badge" class="badge-status badge-open">-</span>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <div class="flex items-center justify-between text-slate-600">
+                <span class="flex items-center gap-1.5 text-slate-500"><i data-lucide="map-pin" class="w-3.5 h-3.5 text-rose-500"></i> <span data-i18n="tekong_label_destination">Destination:</span></span>
+                <span id="tekong-destination" class="font-bold text-slate-800 text-right">-</span>
+              </div>
+              <div class="flex items-center justify-between text-slate-600">
+                <span class="flex items-center gap-1.5 text-slate-500"><i data-lucide="navigation" class="w-3.5 h-3.5 text-sky-500"></i> <span data-i18n="tekong_label_jetty">Departure Jetty:</span></span>
+                <span id="tekong-jetty" class="font-semibold text-slate-800 text-right">-</span>
+              </div>
+              <div class="flex items-center justify-between text-slate-600">
+                <span class="flex items-center gap-1.5 text-slate-500"><i data-lucide="calendar" class="w-3.5 h-3.5 text-amber-500"></i> <span data-i18n="tekong_label_time">Departure Time:</span></span>
+                <span id="tekong-datetime" class="font-semibold text-slate-800 text-right">-</span>
+              </div>
+              <div class="flex items-center justify-between text-slate-600">
+                <span class="flex items-center gap-1.5 text-slate-500"><i data-lucide="user" class="w-3.5 h-3.5 text-blue-500"></i> <span data-i18n="tekong_label_skipper">Captain / Master:</span></span>
+                <span id="tekong-skipper" class="font-bold text-[#0d3b66] text-right">-</span>
+              </div>
+              <div class="flex items-center justify-between text-slate-600">
+                <span class="flex items-center gap-1.5 text-slate-500"><i data-lucide="award" class="w-3.5 h-3.5 text-slate-400"></i> <span data-i18n="tekong_label_license">SID / Seafarer ID No:</span></span>
+                <span id="tekong-skipper-license" class="font-mono text-slate-600 text-right">-</span>
+              </div>
+              <div class="flex items-center justify-between text-slate-600">
+                <span class="flex items-center gap-1.5 text-slate-500"><i data-lucide="id-card" class="w-3.5 h-3.5 text-slate-400"></i> <span data-i18n="tekong_label_ic">Captain ID / IC:</span></span>
+                <span id="tekong-skipper-ic" class="font-mono text-slate-600 text-right">-</span>
+              </div>
+              <div class="pt-2 border-t border-slate-100">
+                <span class="flex items-center gap-1.5 text-slate-500 mb-1"><i data-lucide="users" class="w-3.5 h-3.5 text-slate-400"></i> <span data-i18n="tekong_label_crew">Assigned Duty Crew:</span></span>
+                <div id="tekong-crew-list" class="font-medium text-slate-700 bg-slate-50 p-2 rounded-lg border border-slate-100">
+                  -
+                </div>
+              </div>
+            </div>
+
+            <!-- Capacity Control Widget -->
+            <div class="mt-6 pt-4 border-t border-slate-100">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-slate-500 uppercase" data-i18n="tekong_card_capacity_control">VESSEL CAPACITY CONTROL</span>
+                <span id="tekong-capacity-badge" class="badge-status badge-open">-</span>
+              </div>
+
+              <div class="flex items-baseline justify-between mb-1.5">
+                <span class="text-2xl font-black text-slate-800" id="tekong-capacity-count">0 / 0</span>
+                <span class="text-xs font-semibold text-slate-500" data-i18n="tekong_registered_pax_label">Registered Passengers</span>
+              </div>
+
+              <div class="w-full bg-slate-200 h-3 rounded-full overflow-hidden p-0.5">
+                <div id="tekong-capacity-progress" class="h-2 rounded-full bg-emerald-500 transition-all duration-300" style="width: 0%;"></div>
+              </div>
+
+              <div id="tekong-capacity-remaining" class="text-xs text-slate-500 mt-2 font-medium">
+                -
+              </div>
+            </div>
+
+            <!-- Quick QR Code Widget -->
+            <div class="mt-6 pt-4 border-t border-slate-100 text-center">
+              <span class="text-xs font-bold text-slate-500 uppercase block mb-2" data-i18n="tekong_qr_sidebar_title">QR CODE FOR PASSENGER REGISTRATION</span>
+              <div class="inline-block p-2 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:border-sky-500 transition-all" onclick="document.getElementById('btn-open-qr-modal').click()">
+                <canvas id="tekong-sidebar-qr-canvas" class="mx-auto rounded-lg"></canvas>
+                <span class="text-[11px] text-sky-600 font-bold mt-1.5 block flex items-center justify-center gap-1" data-i18n="tekong_qr_click_enlarge">
+                  <i data-lucide="maximize" class="w-3 h-3"></i> Click for enlarged view
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Step 6: Master / Captain Approval Action Box -->
+          <div class="marine-card p-5 bg-gradient-to-br from-white to-blue-50/40 border-blue-200">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-7 h-7 rounded-full bg-[#0d3b66] text-white flex items-center justify-center font-bold text-xs">6</div>
+              <h4 class="font-black text-[#0d3b66] text-sm" data-i18n="tekong_step6_title">6. CAPTAIN CLEARANCE &amp; DEPARTURE APPROVAL</h4>
+            </div>
+            
+            <p class="text-xs text-slate-600 mb-4 leading-relaxed" data-i18n="tekong_step6_desc">
+              Once all passengers have registered and lifejacket safety confirmed, the Captain must approve the trip in the system to authorise legal departure under maritime safety regulations.
+            </p>
+
+            <button id="btn-tekong-approve" class="w-full py-3 px-4 rounded-xl font-bold bg-[#0d3b66] hover:bg-[#072340] text-white shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+              <i data-lucide="stamp" class="w-5 h-5 text-amber-400"></i>
+              <span data-i18n="tekong_btn_approve_boat">6. Authorise &amp; Approve Departure</span>
+            </button>
+
+            <div id="tekong-approval-notice" class="mt-3 p-2.5 rounded-lg bg-emerald-50 border border-emerald-200 hidden text-xs"></div>
+
+            <!-- Maritime Weather Departure Warning (Triggered if sea state is YELLOW or RED) -->
+            <div id="tekong-weather-warning" class="mt-3 p-3 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 text-xs hidden">
+              <div class="flex items-center gap-2 font-bold mb-1">
+                <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+                <span id="tekong-weather-warning-title">Maritime Weather Advisory</span>
+              </div>
+              <p id="tekong-weather-warning-body" class="text-[11px] leading-relaxed">
+                Caution: Sea conditions are rough. Small craft departures restricted by Jabatan Laut.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-200 text-xs">
+              <button id="btn-print-manifest" class="py-2 px-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-1.5 shadow-sm" title="Print official manifest directly to printer/PDF">
+                <i data-lucide="printer" class="w-4 h-4 text-slate-600"></i>
+                <span data-i18n="tekong_btn_print_a4">Print Manifest (A4)</span>
+              </button>
+              <button id="btn-export-csv" class="py-2 px-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold flex items-center justify-center gap-1.5 shadow-sm">
+                <i data-lucide="download" class="w-4 h-4 text-slate-600"></i>
+                <span data-i18n="tekong_btn_download_csv">Download CSV</span>
+              </button>
+            </div>
+            <div class="mt-2">
+              <button id="btn-view-manifest" class="w-full py-2 px-3 rounded-lg border border-sky-300 bg-sky-50 hover:bg-sky-100 text-sky-800 font-bold flex items-center justify-center gap-1.5 shadow-sm text-xs" title="Open and review full official manifest LAMPIRAN A">
+                <i data-lucide="file-text" class="w-4 h-4 text-sky-600"></i>
+                <span data-i18n="tekong_btn_check_manifest">Open &amp; Review Manifest (APPENDIX A)</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Live Registered Passengers Table -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="marine-card p-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4 mb-4">
+              <div>
+                <h3 class="text-base font-black text-slate-800 flex items-center gap-2">
+                  <i data-lucide="clipboard-list" class="w-5 h-5 text-[#0077b6]"></i>
+                  <span data-i18n="tekong_pax_table_header">Live Registered Passenger Manifest</span>
+                </h3>
+                <p class="text-xs text-slate-500 mt-0.5" data-i18n="tekong_pax_table_sub">
+                  This record updates in real time as passengers register via the trip QR code.
+                </p>
+              </div>
+              <div class="flex items-center gap-2 self-start sm:self-auto">
+                <span id="tekong-live-sync-indicator" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-md" title="Penyelarasan automatik masa-nyata aktif">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span data-i18n="tekong_live_sync_label">Live Sync</span>
+                </span>
+                <div class="text-xs font-mono font-semibold bg-sky-50 text-sky-800 border border-sky-200 px-2.5 py-1 rounded-md">
+                  Trip ID: <span id="tekong-trip-id">-</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Search / Filter Bar for Tekong Manifest -->
+            <div class="mb-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-slate-50/80 p-2 rounded-xl border border-slate-200/80">
+              <div class="relative flex-1 max-w-sm">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5"></i>
+                <input type="text" id="tekong-pax-search" placeholder="Cari nama atau No. IC / Search passenger..." data-i18n-placeholder="tekong_pax_search_placeholder" class="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-300 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white transition-all">
+              </div>
+              <div class="flex items-center gap-2">
+                <span id="tekong-pax-search-count" class="text-[11px] font-semibold text-slate-500"></span>
+                <button id="btn-clear-tekong-search" type="button" class="text-[11px] font-bold text-slate-500 hover:text-slate-800 hidden underline">
+                  Reset
+                </button>
+              </div>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider font-bold">
+                    <th class="py-3 px-3 text-center w-10" data-i18n="tekong_table_col_no">NO</th>
+                    <th class="py-3 px-3" data-i18n="tekong_table_col_name">PASSENGER NAME</th>
+                    <th class="py-3 px-3" data-i18n="tekong_table_col_ic">ID / PASSPORT NO</th>
+                    <th class="py-3 px-3" data-i18n="tekong_table_col_address">SHORT ADDRESS</th>
+                    <th class="py-3 px-3" data-i18n="tekong_table_col_phone">PHONE NO</th>
+                    <th class="py-3 px-3 text-center" data-i18n="tekong_table_col_jacket">LIFEJACKET</th>
+                    <th class="py-3 px-3 text-right" data-i18n="tekong_table_col_action">ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody id="tekong-passenger-table-body"></tbody>
+              </table>
+            </div>
+
+            <!-- Empty State -->
+            <div id="tekong-passenger-empty" class="hidden text-center py-12 px-4">
+              <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-3 text-slate-400">
+                <i data-lucide="user-plus" class="w-7 h-7"></i>
+              </div>
+              <h4 class="text-sm font-bold text-slate-700" data-i18n="tekong_no_pax">No Passengers Registered Yet For This Trip</h4>
+              <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1" data-i18n="tekong_no_pax_sub">
+                Display the trip QR code to passengers at the jetty to begin digital registration.
+              </p>
+              <button onclick="document.getElementById('btn-open-qr-modal').click()" class="mt-3 py-1.5 px-4 bg-sky-100 hover:bg-sky-200 text-sky-900 rounded-lg text-xs font-bold" data-i18n="tekong_btn_show_qr_now">
+                Display QR Code Now
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 2: DEDICATED MCH ADMIN & DATA MANAGEMENT PORTAL
+         ============================================================ -->
+    <div id="view-admin" class="space-y-6 hidden">
+
+      <!-- Admin Maritime Weather Advisory Bar -->
+      <div id="admin-weather-banner" class="bg-gradient-to-r from-slate-900 via-[#0d3b66] to-slate-900 text-white rounded-2xl p-4 shadow-sm border border-slate-700/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 text-amber-400">
+            <i data-lucide="shield-alert" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-[10px] uppercase font-bold tracking-wider text-amber-300" data-i18n="admin_weather_jlm_badge">PORT AUTHORITY SEA STATE ADVISORY</span>
+              <span id="admin-weather-port" class="text-xs font-bold text-white bg-white/10 px-2 py-0.5 rounded">All Ports</span>
+              <span id="admin-weather-status-pill" class="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span id="admin-weather-status-text">PELEPASAN DIBENARKAN</span>
+              </span>
+            </div>
+            <div class="text-xs text-slate-300 mt-1 flex items-center gap-3 flex-wrap font-medium">
+              <span><strong class="text-white font-bold" data-i18n="weather_sea_label">Sea State:</strong> <span id="admin-weather-sea-state">Tenang / Baik</span></span>
+              <span>•</span>
+              <span><strong class="text-white font-bold" data-i18n="weather_wave_label">Wave:</strong> <span id="admin-weather-wave">0.5m – 1.0m</span></span>
+              <span>•</span>
+              <span><strong class="text-white font-bold" data-i18n="weather_wind_label">Wind:</strong> <span id="admin-weather-wind">10 – 20 km/j Barat Daya</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 self-end md:self-auto">
+          <button id="btn-open-weather-modal-admin" class="text-xs font-bold text-white bg-amber-600 hover:bg-amber-700 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-white"></i>
+            <span data-i18n="weather_btn_edit_advisory">Manage / Simulate Advisory</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="marine-card p-4 relative mb-2 bg-white rounded-2xl border border-slate-200/80 shadow-xs">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-bold text-slate-700">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span data-i18n="admin_overview_title">Operations Control Center &amp; Maritime Database</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2.5">
+            <span class="text-emerald-600 font-semibold text-[11px]" data-i18n="admin_system_online">● System Online &amp; Synchronized</span>
+            <div id="admin-live-sync-indicator" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-mono text-[11px] border border-emerald-200 transition-all shadow-2xs">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span id="admin-live-sync-label" data-i18n="admin_live_sync_active">LIVE SYNC ACTIVE</span>
+              <span id="admin-live-sync-time" class="text-[10px] text-emerald-600/70 font-normal">⚡ Real-Time</span>
+            </div>
+            <button id="btn-admin-manual-sync" type="button" class="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-900 transition-all shadow-2xs" title="Sync Now">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Operational Performance & Incident Monitoring Cards -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+        <!-- 1. Trips Today (Per Day) -->
+        <div class="bg-white border border-sky-100 rounded-2xl p-3.5 sm:p-4 shadow-sm hover:border-sky-300 transition-all flex flex-col justify-between relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-16 h-16 bg-sky-500/5 rounded-bl-full pointer-events-none"></div>
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] sm:text-[11px] font-bold text-sky-800 uppercase tracking-wider" data-i18n="admin_stat_trips_today">Trip Hari Ini</span>
+              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center">
+                <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div id="admin-stat-trips-today" class="text-2xl font-black text-sky-950">0</div>
+            <div id="admin-stat-trips-today-sub" class="text-[10px] text-slate-500 font-medium mt-0.5 truncate">0 Penumpang Hari Ini</div>
+          </div>
+          <button type="button" id="btn-quick-filter-today" class="mt-2 w-full text-[10px] font-bold py-1 px-1.5 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-800 border border-sky-200 transition-colors flex items-center justify-center gap-1 cursor-pointer">
+            <i data-lucide="filter" class="w-3 h-3"></i>
+            <span>Tapis Hari Ini</span>
+          </button>
+        </div>
+
+        <!-- 2. Trips This Month (Per Month) -->
+        <div class="bg-white border border-indigo-100 rounded-2xl p-3.5 sm:p-4 shadow-sm hover:border-indigo-300 transition-all flex flex-col justify-between relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-16 h-16 bg-indigo-500/5 rounded-bl-full pointer-events-none"></div>
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] sm:text-[11px] font-bold text-indigo-800 uppercase tracking-wider" data-i18n="admin_stat_trips_month">Trip Bulan Ini</span>
+              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center">
+                <i data-lucide="calendar-days" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div id="admin-stat-trips-month" class="text-2xl font-black text-indigo-950">0</div>
+            <div id="admin-stat-trips-month-sub" class="text-[10px] text-slate-500 font-medium mt-0.5 truncate">0 Penumpang Bulan Ini</div>
+          </div>
+          <button type="button" id="btn-quick-filter-month" class="mt-2 w-full text-[10px] font-bold py-1 px-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-800 border border-indigo-200 transition-colors flex items-center justify-center gap-1 cursor-pointer">
+            <i data-lucide="filter" class="w-3 h-3"></i>
+            <span>Tapis Bulan Ini</span>
+          </button>
+        </div>
+
+        <!-- 3. Total Recorded Fleet Trips -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider" data-i18n="admin_stat_total_trips">Total Fleet Trips</span>
+              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center">
+                <i data-lucide="ship" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div id="admin-stat-trips" class="text-2xl font-black text-[#0d3b66]">0</div>
+            <div class="text-[10px] text-slate-400 mt-0.5" data-i18n="admin_stat_total_trips_sub">Across all vessels</div>
+          </div>
+          <div class="mt-2 text-[10px] font-mono text-slate-400">Pangkalan Induk</div>
+        </div>
+
+        <!-- 4. Registered Passengers -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider" data-i18n="admin_stat_manifested_pax">Registered Pax</span>
+              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <i data-lucide="users" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div id="admin-stat-pax" class="text-2xl font-black text-emerald-700">0</div>
+            <div class="text-[10px] text-slate-400 mt-0.5" data-i18n="admin_stat_manifested_pax_sub">In MCH database</div>
+          </div>
+          <div class="mt-2 text-[10px] font-mono text-slate-400">Manifes Rasmi</div>
+        </div>
+
+        <!-- 5. Capacity Compliance -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-3.5 sm:p-4 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider" data-i18n="admin_stat_compliance_rate">Compliance</span>
+              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center">
+                <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div id="admin-stat-compliance" class="text-2xl font-black text-sky-700">100%</div>
+            <div class="text-[10px] text-emerald-600 font-semibold mt-0.5" data-i18n="admin_stat_compliance_rate_sub">No overloaded vessels</div>
+          </div>
+          <div id="admin-stat-occupancy-wrapper" class="mt-2 text-[10px] text-slate-500 font-mono">Muatan: <strong id="admin-stat-occupancy" class="text-amber-700">0%</strong></div>
+        </div>
+
+        <!-- 6. Incident Audit Readiness -->
+        <div class="bg-white border border-emerald-200 rounded-2xl p-3.5 sm:p-4 shadow-sm flex flex-col justify-between bg-gradient-to-br from-white to-emerald-50/40">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] sm:text-[11px] font-bold text-emerald-800 uppercase tracking-wider" data-i18n="admin_stat_incident_ready">Kesiagaan Insiden</span>
+              <div class="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                <i data-lucide="life-buoy" class="w-3.5 h-3.5"></i>
+              </div>
+            </div>
+            <div class="text-xs font-black text-emerald-800 flex items-center gap-1.5 mt-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span data-i18n="admin_stat_incident_ready_val">🟢 BERSEDIA</span>
+            </div>
+            <div class="text-[10px] text-slate-500 mt-1" data-i18n="admin_stat_incident_ready_sub">Log siap untuk SAR / APMM</div>
+          </div>
+          <button type="button" id="btn-scroll-to-incident-log" class="mt-2 w-full text-[10px] font-bold py-1 px-1.5 rounded-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-900 border border-emerald-300 transition-colors flex items-center justify-center gap-1 cursor-pointer">
+            <i data-lucide="file-text" class="w-3 h-3"></i>
+            <span>Buka Log</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Database Status Banner -->
+      <div id="admin-db-status-banner" class="p-3 bg-white border border-slate-200 rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="font-bold text-slate-700" data-i18n="admin_db_label">Central Registry:</span>
+          <span class="font-semibold px-2.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300" data-i18n="admin_db_name">
+            Maritime Operations Database
+          </span>
+        </div>
+        <div class="text-slate-500 text-[11px] flex items-center gap-3">
+          <span><span data-i18n="admin_db_sync">Sync Mode:</span> <strong>Live Real-Time</strong></span>
+          <span class="text-emerald-700 font-bold" data-i18n="admin_db_connected">🟢 System Connected &amp; Active</span>
+        </div>
+      </div>
+
+      <!-- Dedicated Incident & Daily/Monthly Operations Audit Card -->
+      <div id="admin-incident-log-card" class="marine-card p-5 bg-white border border-slate-200 rounded-2xl shadow-sm">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-amber-500/10 text-amber-700">
+                <i data-lucide="shield-alert" class="w-4 h-4"></i>
+              </span>
+              <h3 class="text-base font-black text-slate-800" data-i18n="admin_incident_card_title">Log Rekod Trip Harian &amp; Bulanan (Kesiagaan Insiden Maritim)</h3>
+            </div>
+            <p class="text-xs text-slate-500 mt-1" data-i18n="admin_incident_card_sub">
+              Perekodan tepat trip harian dan bulanan bagi membolehkan semakan pantas, perolehan manifes kecemasan, serta pengesahan operasi mencari dan menyelamat (SAR) sekiranya berlaku sebarang insiden tidak diingini.
+            </p>
+          </div>
+
+          <!-- Controls: View toggle and Incident Date Quick-Audit -->
+          <div class="flex flex-wrap items-center gap-2.5 self-start lg:self-auto">
+            <!-- Toggle: Daily vs Monthly -->
+            <div class="inline-flex p-0.5 rounded-xl bg-slate-100 border border-slate-200 text-xs font-bold" id="admin-incident-view-toggle">
+              <button type="button" id="btn-toggle-daily-log" class="py-1 px-3 rounded-lg bg-white text-[#0d3b66] shadow-xs transition-all cursor-pointer" data-i18n="admin_tab_daily_log">
+                📅 Log Insiden Harian
+              </button>
+              <button type="button" id="btn-toggle-monthly-log" class="py-1 px-3 rounded-lg text-slate-600 hover:text-slate-900 transition-all cursor-pointer" data-i18n="admin_tab_monthly_log">
+                📆 Ringkasan Bulanan
+              </button>
+            </div>
+
+            <!-- Incident Date Quick Audit Picker -->
+            <div class="flex items-center gap-1.5 bg-amber-50/80 border border-amber-200/90 px-2.5 py-1 rounded-xl">
+              <label for="admin-incident-quick-date" class="text-[11px] font-bold text-amber-900 whitespace-nowrap" data-i18n="admin_incident_quick_label">Audit Tarikh Insiden:</label>
+              <input type="date" id="admin-incident-quick-date" class="text-xs font-semibold py-1 px-2 rounded-lg border border-amber-300 bg-white text-slate-800 shadow-2xs focus:ring-1 focus:ring-amber-500 focus:outline-none">
+              <button type="button" id="btn-incident-quick-audit" class="text-[11px] font-bold py-1 px-2.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white shadow-2xs transition-colors whitespace-nowrap cursor-pointer" data-i18n="admin_btn_audit_date">
+                Semak
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Incident Log Dynamic Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 uppercase tracking-wider font-bold text-[11px]">
+                <th class="py-2.5 px-3" data-i18n="admin_incident_table_col_date">Tarikh / Tempoh</th>
+                <th class="py-2.5 px-3 text-center" data-i18n="admin_incident_table_col_trips">Bilangan Trip</th>
+                <th class="py-2.5 px-3 text-center" data-i18n="admin_incident_table_col_pax">Penumpang Berdaftar</th>
+                <th class="py-2.5 px-3" data-i18n="admin_incident_table_col_vessels">Bot Terlibat</th>
+                <th class="py-2.5 px-3 text-center" data-i18n="admin_incident_table_col_status">Status Audit</th>
+                <th class="py-2.5 px-3 text-right" data-i18n="admin_incident_table_col_action">Tindakan Kecemasan</th>
+              </tr>
+            </thead>
+            <tbody id="admin-incident-log-tbody">
+              <!-- Dynamically populated by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Admin Fleet Management & Data Handling Table -->
+      <div class="marine-card p-5" id="admin-fleet-management-card">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3 mb-4">
+          <div>
+            <h3 class="text-base font-black text-slate-800 flex items-center gap-2">
+              <i data-lucide="database" class="w-5 h-5 text-[#0d3b66]"></i>
+              <span data-i18n="admin_fleet_header">MCH Fleet &amp; Trip Data Management</span>
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5" data-i18n="admin_fleet_sub">
+              Administrators can edit details, cancel non-compliant trips, or print manifests.
+            </p>
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <button id="btn-admin-export-all-csv" class="text-xs py-1.5 px-3 rounded-lg border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold flex items-center gap-1.5 transition-colors shadow-sm cursor-pointer">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span data-i18n="admin_btn_export_csv">Export Master CSV</span>
+            </button>
+            <button id="btn-reset-demo-data" class="text-xs py-1.5 px-3 rounded-lg border border-rose-200 bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold flex items-center gap-1 transition-colors cursor-pointer">
+              <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+              <span data-i18n="admin_btn_reset_demo">Reset Demo Data</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar for Admin Fleet Table -->
+        <div class="flex flex-col gap-2.5 mb-4 bg-slate-50/80 p-3 rounded-xl border border-slate-200">
+          <!-- Row 1: Status Filter Tabs & Period/Date Filters -->
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-2.5">
+            <!-- Status Filter Tabs -->
+            <div class="flex flex-wrap items-center gap-1.5" id="admin-fleet-status-tabs">
+              <button type="button" class="admin-fleet-filter-tab text-xs font-bold py-1.5 px-3 rounded-lg transition-all bg-[#0d3b66] text-white shadow-sm border border-[#0d3b66] cursor-pointer" data-status="ALL">
+                <span data-i18n="admin_filter_all">All</span>
+                <span id="admin-count-all" class="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] bg-white/20 text-white font-mono">0</span>
+              </button>
+              <button type="button" class="admin-fleet-filter-tab text-xs font-bold py-1.5 px-3 rounded-lg transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 cursor-pointer" data-status="OPEN">
+                <span data-i18n="admin_filter_open">Open</span>
+                <span id="admin-count-open" class="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] bg-sky-100 text-sky-800 font-mono">0</span>
+              </button>
+              <button type="button" class="admin-fleet-filter-tab text-xs font-bold py-1.5 px-3 rounded-lg transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 cursor-pointer" data-status="APPROVED">
+                <span data-i18n="admin_filter_approved">Departed</span>
+                <span id="admin-count-approved" class="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-800 font-mono">0</span>
+              </button>
+              <button type="button" class="admin-fleet-filter-tab text-xs font-bold py-1.5 px-3 rounded-lg transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 cursor-pointer" data-status="FULL">
+                <span data-i18n="admin_filter_full">Full</span>
+                <span id="admin-count-full" class="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] bg-amber-100 text-amber-800 font-mono">0</span>
+              </button>
+              <button type="button" class="admin-fleet-filter-tab text-xs font-bold py-1.5 px-3 rounded-lg transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 cursor-pointer" data-status="COMPLETED">
+                <span data-i18n="admin_filter_completed">Completed</span>
+                <span id="admin-count-completed" class="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] bg-purple-100 text-purple-800 font-mono">0</span>
+              </button>
+            </div>
+
+            <!-- Period / Date Filters -->
+            <div class="flex flex-wrap items-center gap-2" id="admin-fleet-date-filter-group">
+              <div class="inline-flex items-center gap-1 bg-white border border-slate-200 p-0.5 rounded-lg text-xs font-semibold">
+                <button type="button" class="admin-fleet-period-tab py-1 px-2.5 rounded-md bg-[#0d3b66] text-white font-bold transition-all cursor-pointer" data-period="ALL" data-i18n="admin_filter_period_all">Semua Masa</button>
+                <button type="button" class="admin-fleet-period-tab py-1 px-2.5 rounded-md text-slate-600 hover:bg-slate-100 transition-all cursor-pointer" data-period="TODAY" data-i18n="admin_filter_period_today">Hari Ini</button>
+                <button type="button" class="admin-fleet-period-tab py-1 px-2.5 rounded-md text-slate-600 hover:bg-slate-100 transition-all cursor-pointer" data-period="MONTH" data-i18n="admin_filter_period_month">Bulan Ini</button>
+              </div>
+
+              <!-- Specific Incident Date Input -->
+              <div class="flex items-center gap-1">
+                <input type="date" id="admin-fleet-custom-date" class="text-xs font-semibold py-1 px-2 rounded-lg border border-slate-300 bg-white text-slate-700 shadow-2xs focus:ring-1 focus:ring-sky-500 focus:outline-none" title="Pilih Tarikh Insiden / Khusus">
+                <button type="button" id="btn-admin-clear-date" class="hidden text-xs py-1 px-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-semibold transition-colors cursor-pointer" title="Kosongkan Tapisan Tarikh">
+                  <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: Destination & Vessel Type Filters -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-200/60">
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="flex items-center gap-1.5">
+                <label for="admin-fleet-dest-filter" class="text-xs text-slate-500 font-semibold" data-i18n="admin_filter_dest_label">Destination:</label>
+                <select id="admin-fleet-dest-filter" class="text-xs font-semibold py-1.5 px-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500">
+                  <option value="ALL" data-i18n="admin_filter_all_dest">All Destinations</option>
+                  <option value="Pulau Perhentian">Pulau Perhentian</option>
+                  <option value="Pulau Redang">Pulau Redang</option>
+                </select>
+              </div>
+
+              <div class="flex items-center gap-1.5">
+                <label for="admin-fleet-boat-type-filter" class="text-xs text-slate-500 font-semibold" data-i18n="admin_filter_boat_type_label">Vessel Type:</label>
+                <select id="admin-fleet-boat-type-filter" class="text-xs font-semibold py-1.5 px-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500">
+                  <option value="ALL" data-i18n="admin_filter_all_boat_types">All Types</option>
+                  <option value="12" data-i18n="boat_type_mini">Mini Speedboat (12 Pax)</option>
+                  <option value="24" data-i18n="boat_type_medium">Medium Speedboat (24 Pax)</option>
+                  <option value="40" data-i18n="boat_type_ferry">Ferry (40 Pax)</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="admin-fleet-filter-summary" class="text-[11px] text-slate-500 font-medium">
+              <!-- Dynamically shows matching count and active period -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Incident Emergency Alert Banner (Shown when filtering by a specific date / period) -->
+        <div id="admin-fleet-emergency-banner" class="hidden mb-4 p-3.5 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-rose-500/10 border border-amber-300 rounded-xl text-xs text-amber-950 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 shadow-xs">
+          <div class="flex items-start gap-2.5">
+            <span class="p-1 rounded-md bg-amber-500 text-white mt-0.5 flex-shrink-0">
+              <i data-lucide="alert-octagon" class="w-4 h-4"></i>
+            </span>
+            <div>
+              <div class="font-black text-amber-900 flex items-center gap-2">
+                <span data-i18n="admin_emergency_banner_title">🚨 MOD AUDIT INSIDEN &amp; MANIFES KECEMASAN AKTIF</span>
+                <span id="emergency-banner-date-badge" class="px-2 py-0.2 rounded-full text-[10px] font-bold bg-amber-200 text-amber-900 border border-amber-400">2026-09-17</span>
+              </div>
+              <div class="text-[11px] text-slate-600 mt-0.5" id="emergency-banner-desc">
+                Menunjukkan semua trip dan rekod manifes pada tarikh ini. Sedia untuk semakan kecemasan dan cetakan rasmi.
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0 self-end md:self-auto">
+            <button type="button" id="btn-export-emergency-manifest" class="text-xs font-bold py-1.5 px-3 rounded-lg bg-rose-600 hover:bg-rose-700 text-white shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span data-i18n="admin_btn_export_date_csv">🚨 Eksport Manifes Kecemasan</span>
+            </button>
+            <button type="button" id="btn-emergency-banner-close" class="text-xs py-1.5 px-2.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 font-semibold transition-colors cursor-pointer" title="Tutup Tapisan">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider font-bold">
+                <th class="py-3 px-3" data-i18n="admin_col_trip_id">Trip ID</th>
+                <th class="py-3 px-3" data-i18n="admin_col_boat">Boat &amp; Reg Number</th>
+                <th class="py-3 px-3" data-i18n="admin_col_dest">Destination</th>
+                <th class="py-3 px-3" data-i18n="admin_col_skipper">Captain</th>
+                <th class="py-3 px-3" data-i18n="admin_col_load">Load / Limit</th>
+                <th class="py-3 px-3" data-i18n="admin_col_status">Status</th>
+                <th class="py-3 px-3 text-right" data-i18n="admin_col_action">Data Actions (Admin)</th>
+              </tr>
+            </thead>
+            <tbody id="admin-fleet-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Central Search & Passenger Management -->
+      <div class="marine-card p-5">
+        <div class="border-b border-slate-100 pb-3 mb-4">
+          <h3 class="text-base font-black text-slate-800 flex items-center gap-2">
+            <i data-lucide="search" class="w-5 h-5 text-sky-600"></i>
+            <span data-i18n="admin_search_header">Centralized Passenger Records Search</span>
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5" data-i18n="admin_search_sub">
+            Search any passenger record across the entire system for safety audits or delete invalid entries.
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <div class="relative">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-3 text-slate-400"></i>
+            <input type="text" id="admin-search-input" data-i18n-placeholder="admin_search_placeholder" placeholder="Search IC, Passport, Passenger Name, Destination, or Trip ID..." class="w-full pl-10 pr-10 py-2.5 text-sm rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:outline-none">
+            <button type="button" id="btn-clear-admin-search" class="hidden absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 p-1 rounded-md transition-colors" title="Clear search">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <div class="flex justify-between items-center mt-2 text-xs text-slate-500">
+            <span id="admin-search-count">0 records found</span>
+            <span data-i18n="admin_search_example">Example: try searching "Ahmad", "Passport", "Perhentian", or "TRIP-2026-102"</span>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs uppercase tracking-wider font-bold">
+                <th class="py-2.5 px-3 text-center w-10" data-i18n="tekong_table_col_no">No</th>
+                <th class="py-2.5 px-3" data-i18n="admin_col_pax_name">Passenger Name</th>
+                <th class="py-2.5 px-3" data-i18n="admin_col_ic">IC / Passport No</th>
+                <th class="py-2.5 px-3" data-i18n="admin_col_addr">Short Address</th>
+                <th class="py-2.5 px-3" data-i18n="admin_col_boat_trip">Boat &amp; Trip</th>
+                <th class="py-2.5 px-3" data-i18n="admin_col_reg_time">Registration Time</th>
+                <th class="py-2.5 px-3 text-right" data-i18n="tekong_table_col_action">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-search-results-body"></tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 2.5: JABATAN LAUT MALAYSIA (JLM) ENFORCEMENT & AUDIT PORTAL
+         Strictly Read-Only: Manifest Viewing, Compliance Inspection, Global Passenger Search
+         ============================================================ -->
+    <div id="view-jlm" class="space-y-6 hidden">
+
+      <!-- Official Authority Header & Access Notice Card (Hidden per user request) -->
+      <div class="hidden">
+        <span id="jlm-officer-name">Pegawai Penguatkuasa JLM</span>
+        <span id="jlm-officer-id">JLM-ENF-001</span>
+      </div>
+
+      <!-- Maritime Weather & Port Departure Clearance Status (Hidden per user request) -->
+      <div class="hidden">
+        <span id="jlm-weather-pill">🟢 PELEPASAN DIBENARKAN</span>
+        <span id="jlm-weather-note">Keadaan laut tenang.</span>
+        <button id="btn-jlm-view-weather" type="button"></button>
+      </div>
+
+      <!-- Enforcement Metrics Grid (4 Cards) -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <!-- 1. Trips Today -->
+        <div class="bg-white border border-sky-100 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[11px] font-bold text-sky-800 uppercase tracking-wider" data-i18n="jlm_stat_trips_today">Trip Beroperasi Hari Ini</span>
+            <div class="w-7 h-7 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center">
+              <i data-lucide="calendar" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div id="jlm-stat-trips-today" class="text-2xl font-black text-sky-950">0</div>
+          <div id="jlm-stat-trips-today-sub" class="text-[11px] text-slate-500 font-medium mt-0.5" data-i18n="jlm_stat_trips_today_sub">Semua trip berjadual hari ini</div>
+        </div>
+
+        <!-- 2. Passengers Today -->
+        <div class="bg-white border border-indigo-100 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[11px] font-bold text-indigo-800 uppercase tracking-wider" data-i18n="jlm_stat_pax_today">Penumpang Hari Ini</span>
+            <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center">
+              <i data-lucide="users" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div id="jlm-stat-pax-today" class="text-2xl font-black text-indigo-950">0</div>
+          <div class="text-[11px] text-slate-500 font-medium mt-0.5" data-i18n="jlm_stat_sob_sub">Jiwa di atas bot (SOB)</div>
+        </div>
+
+        <!-- 3. Capacity Compliance -->
+        <div class="bg-white border border-emerald-100 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider" data-i18n="jlm_stat_compliance">Pematuhan Kapasiti</span>
+            <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div id="jlm-stat-compliance" class="text-2xl font-black text-emerald-700">100%</div>
+          <div class="text-[11px] text-emerald-600 font-medium mt-0.5" data-i18n="jlm_stat_compliance_sub">Tiada bot melebihi muatan</div>
+        </div>
+
+        <!-- 4. Active Fleet Vessels -->
+        <div class="bg-white border border-amber-100 rounded-2xl p-4 shadow-sm relative overflow-hidden group">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[11px] font-bold text-amber-800 uppercase tracking-wider" data-i18n="jlm_stat_active_boats">Jumlah Bot Berdaftar</span>
+            <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+              <i data-lucide="ship" class="w-4 h-4"></i>
+            </div>
+          </div>
+          <div id="jlm-stat-active-boats" class="text-2xl font-black text-amber-950">0</div>
+          <div class="text-[11px] text-slate-500 font-medium mt-0.5" data-i18n="jlm_stat_active_boats_sub">Bot pelancongan berlesen aktif</div>
+        </div>
+      </div>
+
+      <!-- Quick Emergency & SAR Manifest Export Bar -->
+      <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="life-buoy" class="w-5 h-5 text-amber-700"></i>
+          </div>
+          <div>
+            <span class="text-xs font-black text-amber-900 uppercase tracking-wide" data-i18n="jlm_sar_export_title">Eksport Penguatkuasaan &amp; Bantuan SAR (Mencari dan Menyelamat)</span>
+            <p class="text-[11px] text-slate-600" data-i18n="jlm_sar_export_sub">Muat turun laporan lengkap seluruh manifes penumpang untuk rekod statutori pelabuhan atau tindakan kecemasan serta merta.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <button id="btn-jlm-export-today-csv" type="button" class="py-2 px-3.5 bg-[#0d3b66] hover:bg-[#072340] text-white font-bold rounded-xl text-xs flex items-center gap-1.5 shadow-sm transition-colors cursor-pointer">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span data-i18n="jlm_sar_export_btn">Muat Turun Manifes Hari Ini (CSV)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- FLEET MANIFEST INSPECTION SECTION -->
+      <div class="marine-card bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="clipboard-check" class="w-5 h-5 text-[#0d3b66]"></i>
+              <h3 class="text-lg font-black text-slate-900" data-i18n="jlm_table_title">Pemeriksaan Manifes Armada Bot Pelancongan</h3>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5" data-i18n="jlm_table_sub">
+              Pemeriksaan rasmi dokumen manifes pelepasan (LAMPIRAN A) bagi setiap bot pelancong berlesen.
+            </p>
+          </div>
+          <span class="text-xs font-semibold px-3 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200 flex items-center gap-1.5 self-start md:self-center">
+            <i data-lucide="eye" class="w-3.5 h-3.5 text-sky-600"></i>
+            <span data-i18n="jlm_readonly_badge">Mod Paparan Sahaja (Tiada Pindaan Dibenarkan)</span>
+          </span>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+          <!-- Search box -->
+          <div class="relative flex-1 max-w-md">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-2.5 pointer-events-none"></i>
+            <input type="text" id="jlm-fleet-search" data-i18n-placeholder="jlm_fleet_search_placeholder" placeholder="Cari Trip ID, Nama Bot, No. Pendaftaran, Nakhoda, Destinasi..." class="w-full pl-9 pr-3 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:outline-none bg-slate-50 text-xs">
+          </div>
+
+          <!-- Period Buttons & Date Picker -->
+          <div class="flex flex-wrap items-center gap-2">
+            <div class="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200">
+              <button type="button" id="btn-jlm-filter-all" data-i18n="jlm_filter_all" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-colors bg-white text-[#0d3b66] shadow-2xs">Semua</button>
+              <button type="button" id="btn-jlm-filter-today" data-i18n="jlm_filter_today" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-colors text-slate-600 hover:text-slate-900">Hari Ini</button>
+              <button type="button" id="btn-jlm-filter-month" data-i18n="jlm_filter_month" class="px-2.5 py-1 rounded-lg font-bold text-xs transition-colors text-slate-600 hover:text-slate-900">Bulan Ini</button>
+            </div>
+            <input type="date" id="jlm-filter-date" data-i18n-title="jlm_filter_date_title" class="p-1.5 text-xs font-bold bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none" title="Pilih Tarikh Spesifik">
+            <button type="button" id="btn-jlm-refresh" data-i18n-title="jlm_refresh_title" class="p-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-colors" title="Segarkan Data">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Fleet Table Container -->
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 uppercase font-bold text-[10px] tracking-wider">
+                <th class="py-3 px-3 w-10 text-center" data-i18n="jlm_th_no">No</th>
+                <th class="py-3 px-3 min-w-[130px]" data-i18n="jlm_th_trip_time">ID Trip &amp; Masa</th>
+                <th class="py-3 px-3 min-w-[160px]" data-i18n="jlm_th_boat_info">Maklumat Bot</th>
+                <th class="py-3 px-3 min-w-[150px]" data-i18n="jlm_th_skipper">Nakhoda / Tekong</th>
+                <th class="py-3 px-3 min-w-[130px]" data-i18n="jlm_th_dest_jetty">Destinasi &amp; Jeti</th>
+                <th class="py-3 px-3 min-w-[140px]" data-i18n="jlm_th_capacity">Muatan / Had Bot</th>
+                <th class="py-3 px-3 text-center min-w-[100px]" data-i18n="jlm_th_status">Status Pelepasan</th>
+                <th class="py-3 px-3 text-right min-w-[190px]" data-i18n="jlm_th_actions">Tindakan Penguatkuasa</th>
+              </tr>
+            </thead>
+            <tbody id="jlm-fleet-table-body" class="divide-y divide-slate-200 bg-white">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CENTRALIZED PASSENGER RECORD SEARCH & INSPECTION -->
+      <div class="marine-card bg-white border border-slate-200 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="user-check" class="w-5 h-5 text-indigo-700"></i>
+              <h3 class="text-base sm:text-lg font-black text-slate-900" data-i18n="jlm_pax_search_title">Pemeriksaan Rekod Penumpang Berpusat</h3>
+            </div>
+            <p class="text-xs text-slate-500 mt-0.5" data-i18n="jlm_pax_search_sub">
+              Cari mana-mana penumpang di seluruh armada bot untuk pengesahan identiti dan semakan keselamatan maritim.
+            </p>
+          </div>
+          <span class="text-xs text-slate-400 font-mono" id="jlm-pax-count-badge">0 Penumpang Dijumpai</span>
+        </div>
+
+        <div class="relative">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3 pointer-events-none"></i>
+          <input type="text" id="jlm-pax-search" data-i18n-placeholder="jlm_pax_search_placeholder" placeholder="Masukkan nama penumpang, nombor MyKad (cth: 940512-11-5321), pasport, atau no. telefon..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-slate-50 text-xs font-medium">
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 uppercase font-bold text-[10px] tracking-wider">
+                <th class="py-2.5 px-3 w-10 text-center" data-i18n="jlm_pax_th_no">No</th>
+                <th class="py-2.5 px-3 min-w-[160px]" data-i18n="jlm_pax_th_name">Nama Penumpang</th>
+                <th class="py-2.5 px-3 min-w-[130px]" data-i18n="jlm_pax_th_ic">No. MyKad / Pasport</th>
+                <th class="py-2.5 px-3 min-w-[120px]" data-i18n="jlm_pax_th_address">Negeri / Alamat</th>
+                <th class="py-2.5 px-3 min-w-[110px]" data-i18n="jlm_pax_th_phone">No. Telefon</th>
+                <th class="py-2.5 px-3 min-w-[140px]" data-i18n="jlm_pax_th_boat_trip">Bot &amp; Trip</th>
+                <th class="py-2.5 px-3 min-w-[120px]" data-i18n="jlm_pax_th_dept_time">Waktu Berlepas</th>
+                <th class="py-2.5 px-3 text-center" data-i18n="jlm_pax_th_lifejacket">Jaket Keselamatan</th>
+                <th class="py-2.5 px-3 text-right" data-i18n="jlm_pax_th_inspection">Semakan</th>
+              </tr>
+            </thead>
+            <tbody id="jlm-pax-table-body" class="divide-y divide-slate-200 bg-white">
+              <!-- Dynamically populated passenger rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Legal Authority Statutory Footer Notice -->
+      <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-500 flex items-start gap-3">
+        <i data-lucide="scale" class="w-5 h-5 text-[#0d3b66] flex-shrink-0 mt-0.5"></i>
+        <div class="leading-relaxed">
+          <strong class="text-slate-800 font-bold block" data-i18n="jlm_footer_statutory_title">Pematuhan Perundangan Maritim &bull; Ordinan Perkapalan Saudagar 1952</strong>
+          <span data-i18n="jlm_footer_statutory_desc">Sistem e-PENUMPANG dikendalikan selaras dengan peraturan Jabatan Laut Malaysia bagi memastikan setiap bot pelancong membawa manifes penumpang yang sah sebelum memulakan pelayaran dari jeti. Penguatkuasa Jabatan Laut mempunyai hak berkanun untuk menyemak manifes dan menahan sebarang vesel yang tidak mematuhi had muatan atau prosedur keselamatan.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         VIEW 3: PUBLIC PASSENGER REGISTRATION FORM (MOBILE WEB)
+         ============================================================ -->
+    <div id="view-passenger" class="max-w-xl mx-auto space-y-4 hidden">
+      
+      <!-- Mobile Simulation Container / Card -->
+      <div id="passenger-form-container" class="marine-card p-6 sm:p-8 border border-slate-200 bg-white rounded-2xl shadow-sm relative overflow-hidden">
+        
+        <!-- Header Banner -->
+        <div class="border-b border-slate-100 pb-4 mb-5">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center gap-3">
+              <div class="h-10 flex items-center justify-center">
+                <img src="assets/marinecareerhub-logo.png" alt="MarineCareerHub" class="h-full w-auto object-contain">
+              </div>
+              <span class="text-xs font-black tracking-wider text-[#0d3b66]">e-PENUMPANG &bull; MarineCareerHub</span>
+            </div>
+            <span id="pax-view-remaining-badge" class="badge-status badge-open" data-i18n="inapp_remaining_label">Seats Available</span>
+          </div>
+
+          <h2 class="text-xl font-black text-slate-900" data-i18n="inapp_pax_header">Passenger Registration Form</h2>
+          <p class="text-xs text-slate-500 mt-1" data-i18n="inapp_pax_sub">
+            Please complete your passenger details before boarding the tourist boat in compliance with MarineCareerHub maritime safety requirements.
+          </p>
+        </div>
+
+        <!-- Trip Summary Pill -->
+        <div class="bg-sky-50/80 border border-sky-200 rounded-xl p-3.5 mb-5 text-xs text-slate-700">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <span class="text-slate-400 block text-[10px] uppercase font-bold" data-i18n="inapp_boat_label">Tourist Boat</span>
+              <span id="pax-view-boat" class="font-bold text-[#0d3b66] text-sm">Bayu Samudera 03</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px] uppercase font-bold" data-i18n="inapp_dest_label">Destination</span>
+              <span id="pax-view-destination" class="font-bold text-sky-800 text-sm">Pulau Perhentian</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px] uppercase font-bold" data-i18n="inapp_time_label">Departure Time</span>
+              <span id="pax-view-time" class="font-medium text-slate-700">2026-09-09 • 10:00</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block text-[10px] uppercase font-bold" data-i18n="inapp_skipper_label">Duty Captain</span>
+              <span id="pax-view-skipper" class="font-medium text-slate-700">Captain Rosli</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 5: Capacity Alert Box -->
+        <div id="pax-capacity-alert-box" class="mb-5"></div>
+
+        <!-- Passenger Form -->
+        <form id="form-passenger-register" class="space-y-4">
+          <div>
+            <label for="pax-input-name" class="block text-xs font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5">
+              <i data-lucide="user" class="w-3.5 h-3.5 text-sky-600"></i>
+              <span data-i18n="inapp_f1_name">1. Full Name (as per National ID / Passport) *</span>
+            </label>
+            <input type="text" id="pax-input-name" name="fullName" required data-i18n-placeholder="inapp_f1_placeholder" placeholder="e.g. Alexander John Smith" class="w-full text-sm font-medium px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:outline-none transition-all">
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label for="pax-input-ic" class="text-xs font-bold text-slate-700 uppercase flex items-center gap-1.5">
+                <i data-lucide="credit-card" class="w-3.5 h-3.5 text-sky-600"></i>
+                <span data-i18n="inapp_f2_ic">2. National ID / Passport Number *</span>
+              </label>
+              <span id="pax-input-id-badge" class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600 uppercase">MyKad / Passport</span>
+            </div>
+            <input type="text" id="pax-input-ic" name="icOrPassport" required data-i18n-placeholder="inapp_f2_placeholder" placeholder="e.g. 960824-10-5324 or Passport A1234567" class="w-full text-sm font-mono font-medium px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:outline-none transition-all uppercase tracking-wide">
+          </div>
+
+          <div>
+            <label for="pax-input-age" class="block text-xs font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5">
+              <i data-lucide="calendar" class="w-3.5 h-3.5 text-sky-600"></i>
+              <span data-i18n="inapp_f3_age">3. Age (Years)</span>
+            </label>
+            <input type="number" id="pax-input-age" name="age" min="1" max="120" data-i18n-placeholder="inapp_f3_placeholder" placeholder="e.g. 28 (Auto-calculated if MyKad)" class="w-full text-sm font-medium px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:outline-none transition-all">
+          </div>
+
+          <div>
+            <label for="pax-input-address" class="block text-xs font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5">
+              <i data-lucide="home" class="w-3.5 h-3.5 text-sky-600"></i>
+              <span data-i18n="inapp_f4_address">4. State / Country *</span>
+            </label>
+            <input type="text" id="pax-input-address" name="shortAddress" required data-i18n-placeholder="inapp_f4_placeholder" placeholder="e.g. London, UK or Petaling Jaya, Selangor" class="w-full text-sm font-medium px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:outline-none transition-all">
+          </div>
+
+          <div>
+            <label for="pax-input-phone" class="block text-xs font-bold text-slate-700 uppercase mb-1 flex items-center gap-1.5">
+              <i data-lucide="phone-call" class="w-3.5 h-3.5 text-sky-600"></i>
+              <span data-i18n="inapp_f5_phone">5. Mobile / Emergency Phone Number (Optional)</span>
+            </label>
+            <div class="flex gap-2">
+              <select id="pax-input-country-code" class="w-28 text-xs font-bold px-2 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-700 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:outline-none shadow-sm">
+                <option value="+60">🇲🇾 +60</option>
+                <option value="+65">🇸🇬 +65</option>
+                <option value="+86">🇨🇳 +86</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+61">🇦🇺 +61</option>
+                <option value="+62">🇮🇩 +62</option>
+                <option value="+66">🇹🇭 +66</option>
+                <option value="+81">🇯🇵 +81</option>
+                <option value="+82">🇰🇷 +82</option>
+                <option value="+1">🇺🇸 +1</option>
+                <option value="+49">🇩🇪 +49</option>
+                <option value="+33">🇫🇷 +33</option>
+                <option value="other">🌐 +Other</option>
+              </select>
+              <input type="tel" id="pax-input-phone" name="phone" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/\D/g, '')" data-i18n-placeholder="inapp_f5_placeholder" placeholder="e.g. 123456789" class="flex-1 text-sm font-mono px-3.5 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 focus:outline-none transition-all">
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <label class="flex items-start gap-3 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-100 transition-colors">
+              <input type="checkbox" name="lifejacket" required checked class="mt-0.5 h-4 w-4 rounded border-slate-300 text-[#0d3b66] focus:ring-sky-500">
+              <span class="text-xs text-slate-600 leading-snug" data-i18n="inapp_f6_jacket">
+                I confirm that I will wear a safety lifejacket throughout the voyage and follow the safety instructions of the MarineCareerHub boat captain.
+              </span>
+            </label>
+          </div>
+
+          <button type="submit" id="btn-pax-submit" class="w-full py-3.5 rounded-xl font-bold bg-[#0d3b66] hover:bg-[#072340] text-white shadow-lg shadow-blue-950/20 hover:shadow-xl transition-all flex items-center justify-center gap-2">
+            <i data-lucide="send" class="w-5 h-5 text-amber-400"></i>
+            <span data-i18n="inapp_btn_submit">4. Submit Passenger Registration</span>
+          </button>
+        </form>
+
+        <div class="mt-6 pt-4 border-t border-slate-100 text-center text-[11px] text-slate-400" data-i18n="inapp_legal_footer">
+          Protected under the Merchant Shipping Ordinance &amp; MarineCareerHub Malaysia
+        </div>
+
+      </div>
+
+      <!-- Digital Boarding Pass Ticket (Shows after submission) -->
+      <div id="passenger-ticket-container" class="ticket-container p-6 sm:p-8 hidden">
+        <div class="text-center mb-4">
+          <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-2">
+            <i data-lucide="check" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-black text-slate-800" data-i18n="ticket_main_title">REGISTRATION SUCCESSFUL</h3>
+          <p class="text-xs text-slate-500" data-i18n="ticket_sub_title">Tourist Boat Digital Boarding Pass</p>
+        </div>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2 text-xs">
+          <div class="flex justify-between">
+            <span class="text-slate-500" data-i18n="ticket_pax_name">Passenger Name:</span>
+            <span id="ticket-pax-name" class="font-bold text-slate-800 text-right">Ahmad Daniel</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500" data-i18n="ticket_ic">IC / Passport No:</span>
+            <span id="ticket-pax-id" class="font-mono font-bold text-slate-800">920412-11-5321</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500" data-i18n="ticket_addr">Address:</span>
+            <span id="ticket-pax-address" class="text-slate-700 text-right">London, United Kingdom</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500" data-i18n="ticket_ref">Passenger Ref No:</span>
+            <span id="ticket-pax-ref" class="font-mono font-bold text-sky-700">PAX-101-01</span>
+          </div>
+        </div>
+
+        <div class="ticket-notch-divider"></div>
+
+        <div class="grid grid-cols-2 gap-4 text-xs">
+          <div>
+            <span class="text-[10px] text-slate-400 uppercase font-bold block" data-i18n="ticket_boat">Tourist Boat</span>
+            <span id="ticket-boat-name" class="font-bold text-[#0d3b66]">Bayu Samudera 03</span>
+            <span id="ticket-destination" class="block text-sky-700 font-semibold mt-0.5">Pulau Perhentian</span>
+            <span id="ticket-jetty" class="block text-slate-500 text-[10px]">Jeti Kuala Besut</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-slate-400 uppercase font-bold block" data-i18n="ticket_time">Departure Time</span>
+            <span id="ticket-datetime" class="font-bold text-slate-800">2026-09-09 • 10:00</span>
+            <span class="text-[10px] text-slate-400 block mt-1" data-i18n="ticket_reg_time">Registered At:</span>
+            <span id="ticket-registered-at" class="font-mono text-[11px] text-slate-600">09:12:00</span>
+          </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-between bg-emerald-50 border border-emerald-200 p-3 rounded-xl">
+          <div class="text-xs">
+            <span class="font-bold text-emerald-800 block" data-i18n="ticket_status_manifest">Status: Confirmed on Manifest</span>
+            <span class="text-[11px] text-emerald-700" data-i18n="ticket_status_ready">Please be ready at the jetty and wear your safety lifejacket.</span>
+          </div>
+          <canvas id="ticket-qr-canvas" class="w-16 h-16 rounded bg-white p-1 border border-emerald-300"></canvas>
+        </div>
+
+        <button id="btn-pax-save-ticket" type="button" class="mt-4 w-full py-2.5 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-colors">
+          <i data-lucide="download" class="w-4 h-4 text-emerald-600"></i>
+          <span data-i18n="ticket_btn_save_pass">Save Boarding Pass (Offline)</span>
+        </button>
+
+        <button id="btn-register-another" class="mt-2.5 w-full py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs flex items-center justify-center gap-2">
+          <i data-lucide="user-plus" class="w-4 h-4"></i>
+          <span data-i18n="ticket_btn_another">Register Next Passenger (Family / Friend)</span>
+        </button>
+
+        <button id="btn-pax-finish-login" class="mt-2.5 w-full py-2.5 rounded-xl bg-[#0d3b66] hover:bg-[#072340] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-xs" title="Return to Homepage">
+          <i data-lucide="home" class="w-4 h-4 text-amber-400"></i>
+          <span data-i18n="ticket_btn_login">Done &amp; Return to Homepage</span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER & SLOGAN BAR
+       ============================================================ -->
+  <footer class="bg-white text-slate-700 border-t-2 border-[#0077b6] mt-auto py-6 no-print shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2">
+      <div class="text-sm sm:text-base font-black tracking-wide text-[#0d3b66]" data-i18n="footer_slogan">
+        "REGISTERED PASSENGERS, SAFER JOURNEYS"
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-semibold text-slate-600">
+        <span class="flex items-center gap-1"><i data-lucide="compass" class="w-3.5 h-3.5 text-amber-500"></i> <span data-i18n="footer_item_1">BEAUTIFUL DESTINATIONS</span></span>
+        <span class="text-slate-300">&bull;</span>
+        <span class="flex items-center gap-1"><i data-lucide="smile" class="w-3.5 h-3.5 text-sky-500"></i> <span data-i18n="footer_item_2">MEANINGFUL EXPERIENCES</span></span>
+        <span class="text-slate-300">&bull;</span>
+        <span class="flex items-center gap-1"><i data-lucide="shield" class="w-3.5 h-3.5 text-emerald-600"></i> <span data-i18n="footer_item_3">SAFETY IS A SHARED RESPONSIBILITY</span></span>
+      </div>
+      <div class="text-[11px] text-slate-400 pt-2 border-t border-slate-100" data-i18n="footer_copyright_full">
+        &copy; MarineCareerHub Malaysia. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+     MODAL: CREATE NEW BOAT TRIP (BY CAPTAIN)
+     ============================================================ -->
+  <div id="modal-create-trip" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden no-print">
+    <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-blue-50 text-[#0d3b66] flex items-center justify-center font-bold">1</div>
+          <div>
+            <h3 class="text-lg font-black text-slate-900" data-i18n="modal_create_title">Create New Boat Trip</h3>
+            <p class="text-[11px] text-slate-500" data-i18n="modal_create_sub">Set route, departure time, and boat crew to generate the passenger registration QR code.</p>
+          </div>
+        </div>
+        <button id="btn-close-create-trip" class="text-slate-400 hover:text-slate-600 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-create-trip" class="space-y-4 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_create_boat_name">Boat Name / Vessel *</label>
+            <input type="text" id="create-boat-name" name="boatName" required placeholder="e.g. Blue Wave 01" class="w-full p-2.5 rounded-lg border border-slate-300 font-medium focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_create_boat_reg">Boat Registration No *</label>
+            <input type="text" id="create-boat-reg" name="boatRegNo" required placeholder="e.g. TR-9921-A" class="w-full p-2.5 rounded-lg border border-slate-300 font-mono uppercase focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_create_skipper">Captain / Master Name *</label>
+            <input type="text" id="create-skipper-name" name="skipperName" required placeholder="e.g. Captain Rosli bin Ahmad" class="w-full p-2.5 rounded-lg border border-slate-300 font-medium focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_create_skipper_ic">CAPTAIN MYKAD NO. *</label>
+            <input type="text" id="create-skipper-ic" name="skipperIc" required placeholder="e.g. 780312-11-5421" class="w-full p-2.5 rounded-lg border border-slate-300 font-mono focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="sm:col-span-2">
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_create_jetty">Departure Jetty *</label>
+            <input type="text" name="departureJetty" required value="Jeti Kuala Besut, Terengganu" class="w-full p-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <label class="font-bold text-slate-700 block" data-i18n="modal_create_capacity_label">Capacity Limit *</label>
+              <span class="text-[10px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded-md border border-amber-200 flex items-center gap-1">
+                <i data-lucide="lock" class="w-2.5 h-2.5"></i> <span data-i18n="modal_create_capacity_locked">Locked</span>
+              </span>
+            </div>
+            <input type="number" id="create-max-capacity" name="maxCapacity" readonly value="12" class="w-full p-2.5 rounded-lg border border-slate-200 bg-slate-100 font-bold text-base text-slate-700 cursor-not-allowed select-none focus:outline-none" title="Boat capacity limit is locked according to captain's registered vessel license">
+            <p class="text-[10px] text-slate-500 mt-0.5" data-i18n="modal_create_capacity_note">
+              * Locked to 12.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_create_dest">Destination *</label>
+            <select id="create-destination" name="destination" required class="w-full p-2.5 rounded-lg border border-slate-300 font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-sky-500 focus:outline-none">
+              <option value="Pulau Perhentian" selected>Pulau Perhentian</option>
+              <option value="Pulau Redang">Pulau Redang</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_create_date">Departure Date *</label>
+            <input type="date" id="create-departure-date" name="departureDate" required class="w-full p-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_create_time">Departure Time *</label>
+            <input type="time" id="create-departure-time" name="departureTime" required value="10:30" class="w-full p-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Dynamic Row and Column: Crew Members -->
+        <div class="pt-2 border-t border-slate-100">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+            <div>
+              <label class="font-black text-slate-800 block text-xs uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="users" class="w-4 h-4 text-[#0077b6]"></i>
+                <span data-i18n="modal_create_crew_header">Assisting Crew (Awak-awak / Deckhands)</span>
+                <span id="crew-count-badge" class="ml-1.5 text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-[#0077b6] border border-blue-200">1 / 5</span>
+              </label>
+              <p class="text-[11px] text-slate-500 mt-0.5" data-i18n="modal_create_crew_sub">
+                Enter crew members on duty for this trip (Maximum 5 people only).
+              </p>
+            </div>
+            <button type="button" id="btn-add-crew-row" class="py-1.5 px-3 rounded-lg bg-[#0d3b66] hover:bg-[#072340] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm self-start sm:self-auto">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5 text-amber-400"></i>
+              <span data-i18n="modal_create_btn_add_crew">+ Add Crew</span>
+            </button>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-200 bg-slate-50/70">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 uppercase font-bold text-[10px] tracking-wider">
+                  <th class="py-2.5 px-2.5 text-center w-10" data-i18n="modal_crew_col_no">No</th>
+                  <th class="py-2.5 px-2.5 min-w-[160px]" data-i18n="modal_crew_col_name">Crew Full Name *</th>
+                  <th class="py-2.5 px-2.5 min-w-[130px]" data-i18n="modal_crew_col_ic">IC / Passport No</th>
+                  <th class="py-2.5 px-2.5 min-w-[150px]" data-i18n="modal_crew_col_role">Designation / Role</th>
+                  <th class="py-2.5 px-2 text-center w-12" data-i18n="modal_crew_col_delete">Delete</th>
+                </tr>
+              </thead>
+              <tbody id="crew-table-body" class="divide-y divide-slate-200 bg-white">
+                <!-- Dynamically populated crew rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="crew-empty-hint" class="hidden text-center py-4 text-xs text-slate-400 italic bg-white rounded-xl border border-dashed border-slate-200 mt-1.5" data-i18n="modal_crew_empty_hint">
+            No additional crew registered for this trip (Captain operates solo). Click "+ Add Crew" to add duty crew.
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <button type="button" onclick="document.getElementById('modal-create-trip').classList.add('hidden')" class="py-2.5 px-4 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50" data-i18n="modal_btn_cancel">
+            Cancel
+          </button>
+          <button type="submit" class="py-2.5 px-5 rounded-xl bg-[#0d3b66] hover:bg-[#072340] text-white font-bold flex items-center gap-1.5 shadow-md">
+            <i data-lucide="check" class="w-4 h-4"></i>
+            <span data-i18n="modal_create_btn_submit">Create &amp; Generate QR Code</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     MODAL: ADMIN EDIT TRIP (DATA HANDLING)
+     ============================================================ -->
+  <div id="modal-admin-edit-trip" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden no-print">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+        <div class="flex items-center gap-2">
+          <i data-lucide="edit-3" class="w-5 h-5 text-sky-600"></i>
+          <h3 class="text-lg font-black text-slate-900" data-i18n="modal_edit_title">Edit Trip Data (MCH Admin)</h3>
+        </div>
+        <button id="btn-close-edit-trip" class="text-slate-400 hover:text-slate-600 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="form-admin-edit-trip" class="space-y-4 text-xs">
+        <input type="hidden" id="edit-trip-id" name="tripId">
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_edit_boat">Boat Name</label>
+            <input type="text" id="edit-boat-name" name="boatName" required class="w-full p-2.5 rounded-lg border border-slate-300 font-medium">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_edit_reg">Registration Number</label>
+            <input type="text" id="edit-boat-reg" name="boatRegNo" class="w-full p-2.5 rounded-lg border border-slate-300 font-mono uppercase">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_edit_dest">Destination</label>
+            <select id="edit-destination" name="destination" required class="w-full p-2.5 rounded-lg border border-slate-300 font-semibold text-slate-800 bg-white focus:ring-2 focus:ring-sky-500 focus:outline-none">
+              <option value="Pulau Perhentian">Pulau Perhentian</option>
+              <option value="Pulau Redang">Pulau Redang</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_edit_capacity">Passenger Capacity (Persons)</label>
+            <input type="number" id="edit-max-capacity" name="maxCapacity" required min="1" max="100" class="w-full p-2.5 rounded-lg border border-slate-300 font-bold text-base text-[#0d3b66]">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_edit_date">Departure Date</label>
+            <input type="date" id="edit-departure-date" name="departureDate" required class="w-full p-2.5 rounded-lg border border-slate-300">
+          </div>
+          <div>
+            <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_edit_time">Departure Time</label>
+            <input type="time" id="edit-departure-time" name="departureTime" required class="w-full p-2.5 rounded-lg border border-slate-300">
+          </div>
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_edit_crew">Duty Crew List</label>
+          <input type="text" id="edit-crew-list" name="crewList" placeholder="e.g. Muhammad Alif (Deckhand), Razak (Safety Crew)" class="w-full p-2.5 rounded-lg border border-slate-300 font-medium">
+        </div>
+
+        <div>
+          <label class="font-bold text-slate-700 block mb-1" data-i18n="modal_edit_status">Trip Status</label>
+          <select id="edit-trip-status" name="status" class="w-full p-2.5 rounded-lg border border-slate-300 font-bold">
+            <option value="OPEN">OPEN (Registration Open)</option>
+            <option value="FULL">FULL (Capacity Full)</option>
+            <option value="APPROVED">APPROVED (Authorised &amp; Departed)</option>
+            <option value="COMPLETED">COMPLETED (Finished)</option>
+          </select>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <button type="button" onclick="document.getElementById('modal-admin-edit-trip').classList.add('hidden')" class="py-2.5 px-4 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50" data-i18n="modal_btn_cancel">
+            Cancel
+          </button>
+          <button type="submit" class="py-2.5 px-5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold flex items-center gap-1.5 shadow-md">
+            <i data-lucide="save" class="w-4 h-4"></i>
+            <span data-i18n="modal_btn_save">Save Changes</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     MODAL: TRIP QR CODE DISPLAY (FOR PASSENGER SCANNING)
+     ============================================================ -->
+  <div id="modal-qr-code" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 hidden no-print">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-200 text-center space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="text-left">
+          <span class="text-[10px] uppercase font-bold text-sky-700" data-i18n="modal_qr_step2">STEP 2: SYSTEM GENERATED QR CODE</span>
+          <h3 id="modal-qr-boat" class="text-lg font-black text-[#0d3b66]">Bayu Samudera 03</h3>
+        </div>
+        <button id="btn-close-qr-modal" class="text-slate-400 hover:text-slate-600 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="text-xs text-slate-600">
+        <span data-i18n="modal_qr_dest">Destination:</span> <strong id="modal-qr-destination" class="text-slate-900">Pulau Perhentian</strong> &bull; <span data-i18n="modal_qr_cap">Limit:</span> <strong id="modal-qr-capacity" class="text-[#0d3b66]">12 Passengers</strong>
+      </div>
+
+      <div class="qr-frame-box my-1">
+        <canvas id="modal-qr-canvas" class="mx-auto rounded"></canvas>
+      </div>
+
+      <div class="text-xs font-mono text-slate-500">
+        <span data-i18n="modal_qr_trip_code">Trip Code:</span> <strong id="modal-qr-trip-id" class="text-slate-800">TRIP-2026-101</strong>
+      </div>
+
+      <div class="space-y-2 text-xs">
+        <div class="flex items-center gap-2">
+          <input type="text" id="modal-qr-url-text" readonly class="w-full text-xs font-mono bg-slate-50 border border-slate-300 rounded-lg p-2 text-slate-600">
+          <button id="btn-copy-qr-url" class="p-2 bg-slate-200 hover:bg-slate-300 rounded-lg font-bold" data-i18n-title="modal_qr_copy_btn" title="Copy Link">
+            <i data-lucide="copy" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 pt-2">
+          <button id="btn-download-qr" class="py-2.5 px-3 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 font-bold text-slate-700 flex items-center justify-center gap-1.5 shadow-sm">
+            <i data-lucide="download" class="w-4 h-4"></i>
+            <span data-i18n="modal_qr_btn_download">Download PNG</span>
+          </button>
+          <button id="btn-test-open-form" class="py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 font-bold text-white flex items-center justify-center gap-1.5 shadow-sm">
+            <i data-lucide="smartphone" class="w-4 h-4"></i>
+            <span data-i18n="modal_qr_btn_open">Open Form</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="text-[11px] text-slate-400" data-i18n="modal_qr_footer_hint">
+        Present this screen to passengers at the jetty or print for display at the ticket counter.
+      </p>
+    </div>
+  </div>
+
+
+
+  <!-- ============================================================
+     MODAL: MARITIME WEATHER & SEA STATE ADVISORY (JABATAN LAUT)
+     ============================================================ -->
+  <div id="modal-weather-advisory" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 hidden no-print">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-200 max-h-[92vh] overflow-y-auto space-y-4">
+      
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-blue-50 text-[#0077b6] border border-blue-200 flex items-center justify-center font-bold">
+            <i data-lucide="waves" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-slate-900" data-i18n="weather_modal_title">Maritime Sea State Advisory</h3>
+            <p class="text-[11px] text-slate-500" data-i18n="weather_modal_sub">Official safety parameters by Jabatan Laut Malaysia &amp; METMalaysia</p>
+          </div>
+        </div>
+        <button id="btn-close-weather-modal" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Port Selector -->
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1" data-i18n="weather_select_port">Select Marine Jetty / Port:</label>
+        <select id="weather-modal-port-select" class="w-full p-2.5 text-xs font-bold bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          <option value="Jeti Kuala Besut">Jeti Kuala Besut (Pulau Perhentian)</option>
+          <option value="Jeti Merang">Jeti Merang (Pulau Redang)</option>
+          <option value="Jeti Mersing">Jeti Mersing (Pulau Tioman)</option>
+        </select>
+      </div>
+
+      <!-- Current Advisory Summary Card -->
+      <div id="weather-modal-summary-card" class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/70 space-y-2 text-xs">
+        <div class="flex items-center justify-between">
+          <span class="font-black text-xs uppercase tracking-wider text-emerald-900" data-i18n="weather_current_advisory">CURRENT ADVISORY LEVEL</span>
+          <span id="weather-modal-badge" class="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-emerald-600 text-white">GREEN • PELEPASAN DIBENARKAN</span>
+        </div>
+        <p id="weather-modal-note" class="text-slate-700 text-xs leading-relaxed font-medium">
+          Keadaan laut tenang dan mengizinkan pelayaran bot pelancong berlesen.
+        </p>
+        <div class="grid grid-cols-3 gap-2 pt-2 border-t border-emerald-200/60 text-center text-[11px]">
+          <div>
+            <span class="text-slate-500 block" data-i18n="weather_modal_wave">Wave Height</span>
+            <strong id="weather-modal-wave" class="text-slate-800 text-xs">0.5m – 1.0m</strong>
+          </div>
+          <div>
+            <span class="text-slate-500 block" data-i18n="weather_modal_wind">Wind Speed</span>
+            <strong id="weather-modal-wind" class="text-slate-800 text-xs">10 – 20 km/j</strong>
+          </div>
+          <div>
+            <span class="text-slate-500 block" data-i18n="weather_modal_direction">Direction</span>
+            <strong id="weather-modal-dir" class="text-slate-800 text-xs">Barat Daya</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Simulation / Modification Section (Visible for Admin / Officers) -->
+      <div id="weather-admin-controls" class="pt-3 border-t border-slate-100 space-y-3">
+        <span class="text-xs font-black text-slate-800 uppercase tracking-wider block flex items-center gap-1.5">
+          <i data-lucide="sliders" class="w-3.5 h-3.5 text-amber-600"></i>
+          <span data-i18n="weather_admin_control_title">Port Authority Simulation &amp; Advisory Control</span>
+        </span>
+        <p class="text-[11px] text-slate-500" data-i18n="weather_admin_control_desc">
+          Authorized officers can adjust the sea state condition to simulate or declare port departure restrictions.
+        </p>
+
+        <div class="grid grid-cols-3 gap-2 text-xs font-bold">
+          <button type="button" class="btn-set-weather p-2.5 rounded-xl border border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 text-center transition-all" data-level="GREEN">
+            🟢 Normal / Baik<br><span class="text-[10px] font-normal text-emerald-600">Pelepasan Sah</span>
+          </button>
+          <button type="button" class="btn-set-weather p-2.5 rounded-xl border border-amber-300 bg-amber-50 text-amber-900 hover:bg-amber-100 text-center transition-all" data-level="YELLOW">
+            🟡 Berwaspada<br><span class="text-[10px] font-normal text-amber-700">Had Bot Kecil</span>
+          </button>
+          <button type="button" class="btn-set-weather p-2.5 rounded-xl border border-rose-300 bg-rose-50 text-rose-900 hover:bg-rose-100 text-center transition-all" data-level="RED">
+            🔴 Ditangguhkan<br><span class="text-[10px] font-normal text-rose-700">Ribut / Bahaya</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+     MODAL: IN-APP MANIFEST VIEWER (LAMPIRAN A)
+     ============================================================ -->
+  <div id="modal-view-manifest" onclick="if(event.target===this){this.classList.add('hidden');const f=document.getElementById('manifest-modal-iframe');if(f)f.src='about:blank';}" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 hidden no-print">
+    <div class="bg-white rounded-2xl max-w-5xl w-full h-[92vh] max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between px-5 py-3.5 border-b border-slate-200 bg-slate-50 flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-sky-100 text-sky-800 flex items-center justify-center font-bold">
+            <i data-lucide="file-text" class="w-5 h-5 text-sky-700"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-black text-slate-900" data-i18n="modal_manifest_title">Official Passenger Manifest (LAMPIRAN A)</h3>
+              <span id="manifest-modal-trip-badge" class="px-2 py-0.5 text-xs font-mono font-bold bg-sky-100 text-sky-800 border border-sky-300 rounded-md">TRIP-2026-101</span>
+            </div>
+            <p class="text-[11px] text-slate-500" data-i18n="modal_manifest_sub">Statutory Maritime Safety Document • Marine Department Malaysia</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btn-manifest-modal-print" type="button" class="py-1.5 px-3 rounded-lg bg-white hover:bg-slate-100 text-slate-700 font-semibold border border-slate-300 flex items-center gap-1.5 text-xs shadow-xs transition-colors" title="Print / Save PDF">
+            <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-600"></i>
+            <span data-i18n="print">Print</span>
+          </button>
+          <a id="link-manifest-modal-newtab" href="/manifest-print.html" target="_blank" rel="noopener noreferrer" class="py-1.5 px-3 rounded-lg bg-sky-50 hover:bg-sky-100 text-sky-800 font-semibold border border-sky-200 flex items-center gap-1.5 text-xs shadow-xs transition-colors" title="Open in new window or tab">
+            <i data-lucide="external-link" class="w-3.5 h-3.5 text-sky-600"></i>
+            <span data-i18n="modal_manifest_newtab">Open in New Tab</span>
+          </a>
+          <button id="btn-close-manifest-modal" type="button" onclick="document.getElementById('modal-view-manifest').classList.add('hidden');const f=document.getElementById('manifest-modal-iframe');if(f)f.src='about:blank';" class="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-200 transition-colors ml-1" title="Close">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body / Embedded Manifest Document -->
+      <div class="flex-1 bg-slate-100 relative overflow-hidden">
+        <iframe id="manifest-modal-iframe" src="about:blank" class="w-full h-full border-0 bg-white" title="Official Passenger Manifest Document"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+     PRINTABLE A4 MANIFEST (VISIBLE ONLY WHEN PRINTING)
+     ============================================================ -->
+  <div id="manifest-print-section" style="display: none;"></div>
+
+  <!-- Application Scripts -->
+  <script src="vendor/qrcode.min.js"></script>
+  <script src="js/store.js?v=20260923h"></script>
+  <script src="js/qr-generator.js?v=20260923h"></script>
+  <script src="js/manifest-export.js?v=20260923h"></script>
+  <script src="js/app.js?v=20260923h"></script>
+  <script src="js/pwa.js?v=20260923h"></script>
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+    // Global listener for closing manifest modal from embedded iframe
+    window.addEventListener('message', function(event) {
+      if (event.data === 'CLOSE_MANIFEST_MODAL' || (event.data && event.data.action === 'CLOSE_MANIFEST_MODAL')) {
+        var modal = document.getElementById('modal-view-manifest');
+        var iframe = document.getElementById('manifest-modal-iframe');
+        if (modal) modal.classList.add('hidden');
+        if (iframe) iframe.src = 'about:blank';
+      }
+    });
+  </script>
+
+  <!-- ============================================================
+     PWA INSTALL BANNER & MODALS (MOBILE EXPERIENCE)
+     ============================================================ -->
+  <!-- Mobile Install Banner / Bottom Sheet -->
+  <div id="pwa-install-banner" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-md bg-white border border-slate-200 rounded-2xl shadow-2xl p-4 z-50 flex items-center justify-between gap-3 hidden transition-all no-print">
+    <div class="flex items-center gap-3 min-w-0">
+      <img src="assets/icon-192.png" alt="e-PENUMPANG App" class="w-11 h-11 rounded-xl shadow-xs flex-shrink-0 object-cover border border-slate-100">
+      <div class="truncate">
+        <h4 class="font-black text-slate-900 text-xs truncate" data-i18n="pwa_install_title">Install e-PENUMPANG App</h4>
+        <p class="text-[11px] text-slate-500 truncate" data-i18n="pwa_install_desc">Install on your home screen for instant launch and offline access.</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-1.5 flex-shrink-0">
+      <button id="btn-pwa-banner-install" type="button" class="px-3 py-2 bg-[#0d3b66] hover:bg-[#072340] text-white text-xs font-bold rounded-xl shadow transition-all flex items-center gap-1.5">
+        <i data-lucide="download" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span data-i18n="pwa_install_btn">Install App</span>
+      </button>
+      <button id="btn-pwa-banner-close" type="button" class="p-2 text-slate-400 hover:text-slate-600 rounded-lg transition-colors" title="Dismiss">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- iOS Safari Install Guide Modal -->
+  <div id="modal-ios-install" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden no-print">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-5 shadow-2xl space-y-4 border border-slate-200 text-center">
+      <div class="w-12 h-12 rounded-2xl bg-blue-50 text-[#0d3b66] flex items-center justify-center mx-auto shadow-inner">
+        <i data-lucide="share" class="w-6 h-6"></i>
+      </div>
+      <div>
+        <h3 class="font-black text-slate-800 text-base" data-i18n="pwa_install_ios_title">Install on iPhone / iPad</h3>
+        <p class="text-xs text-slate-500 mt-1" data-i18n="pwa_install_desc">Install on your home screen for instant launch and offline access.</p>
+      </div>
+      <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-left text-xs space-y-2.5 text-slate-700">
+        <div class="flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#0d3b66] text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">1</span>
+          <span data-i18n="pwa_install_ios_step1">Tap the Share icon in Safari toolbar.</span>
+        </div>
+        <div class="flex items-start gap-2.5">
+          <span class="w-5 h-5 rounded-full bg-[#0d3b66] text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">2</span>
+          <span data-i18n="pwa_install_ios_step2">Select 'Add to Home Screen'.</span>
+        </div>
+      </div>
+      <button id="btn-close-ios-modal" type="button" class="w-full py-2.5 bg-[#0d3b66] text-white font-bold rounded-xl text-xs hover:bg-[#072340] transition-colors">
+        OK
+      </button>
+    </div>
+  </div>
+</body>
+</html>
